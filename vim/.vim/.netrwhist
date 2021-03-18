@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =0
+let g:netrw_dirhist_0='/Users/GaetanPJ/.config/coc/extensions'
+let g:netrw_dirhist_9='/Users/GaetanPJ/.config/coc/extensions/coc-python-data'
+let g:netrw_dirhist_8='/Users/GaetanPJ/.config/coc/extensions/coc-python-data/languageServer.0.5.51'
+let g:netrw_dirhist_7='/Users/GaetanPJ/.config/coc/extensions/coc-python-data'
+let g:netrw_dirhist_6='/Users/GaetanPJ/.config/coc/extensions'
+let g:netrw_dirhist_5='/Users/GaetanPJ/.config/coc'
+let g:netrw_dirhist_4='/Users/GaetanPJ/.config/coc/extensions'
+let g:netrw_dirhist_3='/Users/GaetanPJ/.config/coc'
+let g:netrw_dirhist_2='/Users/GaetanPJ/.config'
+let g:netrw_dirhist_1='/Users/GaetanPJ/.vim'

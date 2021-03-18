@@ -1,0 +1,23 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "python",
+    "markdown",
+    "json",
+    "elixir"
+  ],
+
+  "python.jediEnabled": false,
+  "python.venvFolders": ["perfectenv"],
+  "python.venvPath": "~/",
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.linting.pylintArgs": [
+    "--disable=all",
+    "--enable=F,E,unreachable,duplicate-key,unnecessary-semicolon,global-variable-not-assigned,unused-variable,binary-op-exception,bad-format-string,anomalous-backslash-in-string,bad-open-mode,unused-import"
+  ],
+  "python.linting.lintOnSave": true,
+  "python.formatting.provider": "black",
+  "python.formatting.blackPath": "~/perfectenv/bin/black",
+  "python.envFile": "~/.zshrc",
+  "prettier.trailingComma": "all"
+}
