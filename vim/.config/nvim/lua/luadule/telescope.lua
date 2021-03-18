@@ -8,6 +8,9 @@ require('telescope').setup{
     selection_strategy = "reset",
     sorting_strategy = "ascending",
     layout_strategy = "horizontal",
+    file_sorter =  require'telescope.sorters'.get_fuzzy_file,
+    generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
+    file_ignore_patterns = {"zsh/plugin/*", "zsh/custom/*", "zsh/lib/*", "zsh/themes/*", "zsh/tools/*", ".DS_Store", "/zsh/cache/*"},
     layout_defaults = {
       horizontal = {
         mirror = false,
