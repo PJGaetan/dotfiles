@@ -1,0 +1,5 @@
+[user]
+	name = PierreJustin Gaetan
+	email = gaetan.pierre-justin@telecomnancy.eu
+[core]
+	excludesfile = /Users/GaetanPJ/.gitignore

@@ -1,0 +1,38 @@
+{
+  "eslint.validate": ["javascript", "javascriptreact", "vue"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.suggestSelection": "first",
+  "workbench.iconTheme": "eq-material-theme-icons-palenight",
+  "workbench.colorTheme": "Dracula",
+  "terminal.integrated.shell.osx": "/bin/zsh",
+
+  "vs-kubernetes": {
+    "vs-kubernetes.minikube-path.mac": "/Users/GaetanPJ/.vs-kubernetes/tools/minikube/darwin-amd64/minikube",
+    "vs-kubernetes.helm-path.mac": "/Users/GaetanPJ/.vs-kubernetes/tools/helm/darwin-amd64/helm",
+    "vs-kubernetes.draft-path.mac": "/Users/GaetanPJ/.vs-kubernetes/tools/draft/darwin-amd64/draft"
+  },
+  "python.languageServer": "Pylance",
+  "markdown.marp.themes": [
+    "/Users/GaetanPJ/Documents/Ressources/marp-dracula/dracula/dracula.css"
+  ],
+  // Set the default
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    // For ESLint
+    "source.fixAll.eslint": true,
+    // For TSLint
+    "source.fixAll.tslint": true,
+    // For Stylelint
+    "source.fixAll.stylelint": true
+  },
+
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true
+  },
+  "editor.minimap.maxColumn": 60
+}
