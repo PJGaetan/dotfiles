@@ -28,8 +28,11 @@ Plug 'preservim/nerdtree'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
   Plug '~/.config/nvim/plugin/telescope.vim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+  " Plug 'neovim/nvim-lspconfig'
 endif
 
+" font and icone
+Plug 'kyazdani42/nvim-web-devicons'
 
 " jupyter-ascending
 Plug 'untitled-ai/jupyter_ascending.vim'

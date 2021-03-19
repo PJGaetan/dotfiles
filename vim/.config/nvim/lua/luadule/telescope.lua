@@ -24,6 +24,7 @@ require('telescope').setup{
         -- to find differents actions https://github.com/nvim-telescope/telescope.nvim/blob/master/lua/telescope/actions/init.lua
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
+        ["<C-q>"] = actions.send_to_qflist,
       },
     },
     set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
