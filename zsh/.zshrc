@@ -79,6 +79,9 @@ plugins=(
   git 
   docker
   fzf
+  zsh-autosuggestions
+  # dotenv
+  history
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -128,6 +131,12 @@ export FZF_DEFAULT_OPTS="
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
+# Auto-suggestion
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+# ZSH_AUTOSUGGEST_MANUAL_REBIND
+# _zsh_autosuggest_bind_widgets -> to rebind widget
+# bindkey '^ ' autosuggest-accept
+
 # fd - Find any directory and cd to selected directory
 fd() {
  local dir
@@ -162,5 +171,10 @@ alias vim="nvim"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 set -o vi
+
+# allow vv to edit the command line (standard behaviour)
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd 'vv' edit-command-line
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
