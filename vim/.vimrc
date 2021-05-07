@@ -37,6 +37,15 @@ Plug 'kyazdani42/nvim-web-devicons'
 " jupyter-ascending
 Plug 'untitled-ai/jupyter_ascending.vim'
 
+Plug 'tpope/vim-surround'
+
+" Vim git
+Plug 'tpope/vim-fugitive'
+" Plug 'airblade/vim-gitgutter'
+" set updatetime=100
+
+" Start menu 
+Plug 'mhinz/vim-startify'
 
 
 " set Vim-specific sequences for RGB colors
