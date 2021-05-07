@@ -44,5 +44,15 @@
     "key": "ctrl+l",
     "command": "workbench.action.navigateRight",
     "when": "vim.mode != 'Insert'"
+  },
+  {
+    "key": "ctrl+tab",
+    "command": "workbench.action.terminal.focusNext",
+    "when": "terminalFocus && terminalProcessSupported"
+  },
+  {
+    "key": "ctrl+shift+tab",
+    "command": "workbench.action.terminal.focusPrevious",
+    "when": "terminalFocus && terminalProcessSupported"
   }
 ]

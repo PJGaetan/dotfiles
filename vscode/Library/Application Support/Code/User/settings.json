@@ -34,5 +34,11 @@
     "**/.DS_Store": true,
     "**/node_modules": true
   },
-  "editor.minimap.maxColumn": 60
+  "editor.minimap.maxColumn": 60,
+  "workbench.editorAssociations": [
+    {
+      "viewType": "jupyter.notebook.ipynb",
+      "filenamePattern": "*.ipynb"
+    }
+  ]
 }
