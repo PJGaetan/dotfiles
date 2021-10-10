@@ -1,9 +1,9 @@
 #!/usr/bin/sh
 
-stow --ignore=.DS_Store vim
-stow --ignore=.DS_Store git
-stow --ignore=.DS_Store tmux
-stow --ignore=.DS_Store vscode
+stow --ignore=".DS_Store|.netrwhist|autoload/plug.vim|coc-settings.json|colors/solarized.vim" vim
+stow --ignore=".DS_Store|.gitconfig" git
+stow --ignore=".DS_Store" tmux
+stow --ignore=".DS_Store|Code/User/settings.json" vscode
 
 
 unlink ~/.zshrc

@@ -12,4 +12,84 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// }
+	"For dictionnaries": {
+		"prefix": "for",
+		"body": [
+			"for ${1:key}, ${2:item} in $3.items():",
+			"    ${4:pass}"
+		],
+		"description": "For dictionnaries"
+	},
+	"Datalogger": {
+		"prefix": "log",
+		"body": [
+			"${1:self.}logger.log_message(",
+			"        level='${2|info,warn,error|}',",
+			"        logger_name=__name__,",
+			"        app=$3,",
+			"        dict_message=dict(",
+			"            message='$4',",
+			"        )",
+			"    )"
+		],
+		"description": "Datalogger"
+	},
+	"Creds for aws": {
+		"prefix": "aws_creds",
+		"body": [
+			"AWS_CREDENTIALS = {",
+			"    'aws_access_key_id': os.environ['AWS_ACCESS_KEY_ID'],",
+			"    'aws_secret_access_key': os.environ['AWS_SECRET_ACCESS_KEY']",
+			"}",
+			"BUCKET_NAME = 'data-datawarehouse-prod'"
+		],
+		"description": "Creds for aws"
+	},
+	"IAM ROLE": {
+		"prefix": "iam_role",
+		"body": [
+			"RS_IAM_ROLE_ARN = str(os.environ['RS_IAM_ROLE_ARN'])"
+		],
+		"description": "IAM ROLE"
+	},
+	"Redshift Credential": {
+		"prefix": "rs_creds",
+		"body": [
+			"REDSHIFT_CREDENTIALS = {",
+			"    'dbname': os.environ['RS_DBNAME'],",
+			"    'host': os.environ['RS_HOST'],",
+			"    'port': os.environ['RS_PORT'],",
+			"    'user': os.environ['RS_USER'],",
+			"    'password': os.environ['RS_PASSWORD']",
+			"}"
+		],
+		"description": "Redshift Credential"
+	},
+	"Mongo Credentials": {
+		"prefix": "mongo_creds",
+		"body": [
+			"MONGO_CREDENTIALS = {",
+			"    'username': os.environ['MONGO_USER'],",
+			"    'password': os.environ['MONGO_PASSWORD'],",
+			"    'connection_string': os.environ['MONGO_HOST'],",
+			"    'path_keyfile': os.environ['MONGO_SSL_KEYFILE'],",
+			"    'path_certfile': os.environ['MONGO_SSL_KEYFILE'],",
+			"    'path_ca_certs': os.environ['MONGO_CA_CERTS'],",
+			"    'auth_source': os.environ['MONGO_AUTHSOURCE'],",
+			"    'appname': 'ETL Mongo',",
+			"}"
+		],
+		"description": "Mongo Credentials"
+	},
+	"Salesforce Credentials": {
+		"prefix": "sf_creds",
+		"body": [
+			"SF_CREDENTIALS = {",
+			"    'username': 'clement.tailleur@qare.io',",
+			"    'password': os.environ['SF_PASSWORD'],",
+			"    'security_token': os.environ['SF_TOKEN']",
+			"}"
+		],
+		"description": "Salesforce Credentials"
+	}
 }
