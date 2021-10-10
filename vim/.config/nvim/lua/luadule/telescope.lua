@@ -4,15 +4,17 @@ local actions = require('telescope.actions')
 
 require('telescope').setup{
   defaults = {
-    prompt_position = "top",
     selection_strategy = "reset",
     sorting_strategy = "ascending",
-    layout_strategy = "horizontal",
     file_sorter =  require'telescope.sorters'.get_fuzzy_file,
     generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
     file_ignore_patterns = {"zsh/plugin/*", "zsh/custom/*", "zsh/lib/*", "zsh/themes/*", "zsh/tools/*", ".DS_Store", "/zsh/cache/*"},
-    layout_defaults = {
+    layout_strategy = "horizontal",
+    layout_config = {
+      preview_width = 0.5,
+      prompt_position = "top",
       horizontal = {
+        width = 0.8,
         mirror = false,
       },
       vertical = {

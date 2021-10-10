@@ -20,6 +20,10 @@ Plug 'elixir-editors/vim-elixir'
 Plug 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
 Plug 'preservim/nerdtree'
 
+" Config python for lsp :help provider-python (virtualenv section)
+let g:python3_host_prog = '/Users/GaetanPJ/.pyenv/versions/py3nvim/bin/python'
+
+
 " Telescope
  if has('nvim')
   Plug 'nvim-lua/popup.nvim'
@@ -28,8 +32,14 @@ Plug 'preservim/nerdtree'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
   Plug '~/.config/nvim/plugin/telescope.vim'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+  Plug 'nvim-treesitter/playground'
   " Plug 'neovim/nvim-lspconfig'
+  "Plug 'lewis6991/gitsigns.nvim'
+  Plug 'prabirshrestha/vim-lsp'
+  Plug 'mattn/vim-lsp-settings'
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 endif
+
 
 " font and icone
 Plug 'kyazdani42/nvim-web-devicons'
@@ -131,9 +141,9 @@ nnoremap <F1> :set invfullscreen<CR>
 vnoremap <F1> :set invfullscreen<CR>
 
 " Remap move between buffer
-nnoremap <c-w>l :new
+" nnoremap <c-w>l :new
 
-nnorema <leader>b :NERDTreeToggle<CR>
+nnoremap <leader>b :NERDTreeToggleVCS<CR>
 nnoremap <leader>f :NERDTreeFind<CR>
 
 " Textmate holdouts
@@ -158,6 +168,9 @@ nmap <leader><leader>X <Plug>JupyterExecuteAll
 
 " to past in visual mode without writing to register
 vnoremap <leader>p "_dP
+
+" open terminal inside vim
+map <leader>tt :vnew term://zsh<CR>
 
 " Toggle hybride mode 
 " turn it of in insert and focus off

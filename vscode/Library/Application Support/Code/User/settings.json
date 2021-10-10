@@ -9,7 +9,8 @@
   "vs-kubernetes": {
     "vs-kubernetes.minikube-path.mac": "/Users/GaetanPJ/.vs-kubernetes/tools/minikube/darwin-amd64/minikube",
     "vs-kubernetes.helm-path.mac": "/Users/GaetanPJ/.vs-kubernetes/tools/helm/darwin-amd64/helm",
-    "vs-kubernetes.draft-path.mac": "/Users/GaetanPJ/.vs-kubernetes/tools/draft/darwin-amd64/draft"
+    "vs-kubernetes.draft-path.mac": "/Users/GaetanPJ/.vs-kubernetes/tools/draft/darwin-amd64/draft",
+    "vscode-kubernetes.minikube-path.mac": "/Users/GaetanPJ/.vs-kubernetes/tools/minikube/darwin-amd64/minikube"
   },
   "python.languageServer": "Pylance",
   "markdown.marp.themes": [
