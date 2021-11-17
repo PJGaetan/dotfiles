@@ -10,14 +10,7 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin('~/.vim/plugged')
 
-" Coc Config
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-let g:coc_global_extensions = ['coc-json', 'coc-yaml', 'coc-sql', 'coc-python', 'coc-prettier', 'coc-markdownlint', 'coc-elixir']
-set statusline^=%{coc#status()}
-
-" Elixir
-Plug 'elixir-editors/vim-elixir'
-Plug 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
+" tree explorer
 Plug 'preservim/nerdtree'
 
 " Config python for lsp :help provider-python (virtualenv section)
@@ -37,9 +30,30 @@ let g:python3_host_prog = '/Users/GaetanPJ/.pyenv/versions/py3nvim/bin/python'
   "Plug 'lewis6991/gitsigns.nvim'
   Plug 'prabirshrestha/vim-lsp'
   Plug 'mattn/vim-lsp-settings'
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'prabirshrestha/asyncomplete.vim'
+  Plug 'prabirshrestha/asyncomplete-lsp.vim'
 endif
 
+" lsp mapping
+
+if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+nmap gr <Plug>(lsp-references)
+nmap gi <Plug>(lsp-implementation)
+nmap gt <Plug>(lsp-type-definition)
+nmap <leader>rn <Plug>(lsp-rename)
+nmap [g <Plug>(lsp-previous-diagnostic)
+nmap ]g <Plug>(lsp-next-diagnostic)
+nmap K <Plug>(lsp-hover)
+nmap gd    <Plug>(lsp-definition)
+
+let g:lsp_format_sync_timeout = 1000
+autocmd! BufWritePre *.rs,*.go,*.py call execute('LspDocumentFormatSync')
+
+" quickfixlist
+nmap <C-j> :cnext <CR>
+nmap <C-k> :cprev <CR>
+nmap <leader>qq :cclose <CR>
+    
 
 " font and icone
 Plug 'kyazdani42/nvim-web-devicons'
@@ -74,7 +88,7 @@ syntax enable
 " For plugins to load correctly
 filetype plugin indent on
 
-" TODO: Pick a leader key
+" Pick a leader key
 let mapleader = ","
 
 " Security
