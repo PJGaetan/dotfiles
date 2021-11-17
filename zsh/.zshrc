@@ -167,6 +167,11 @@ alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
 alias proxy="proxychains4"
 alias vim="nvim"
 
+alias tre="tree -paACL 2 --filelimit=100"
+
+# git switch branch
+alias gsb="git branch | fzf --reverse --header git-branch | xargs git checkout"
+
 # Allow pyenv to ovverride python env
 eval "$(pyenv init -)"
 
