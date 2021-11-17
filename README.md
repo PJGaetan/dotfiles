@@ -4,14 +4,13 @@ To set-up:
 
 - install neovim 5.
 
-- ```sh
-  sh install.sh
+- install brew
+
+  ```sh
+  /bin/bash -c "\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh")
   ```
 
-  dependencies :
-
-  ```shell
-  brew install ripgrep
-  brew install bat
-  brew install fd
+- install dependencies
+  ```sh
+  sh install.sh
   ```

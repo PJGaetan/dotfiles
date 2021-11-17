@@ -1,4 +1,5 @@
 #!/usr/bin/sh
+brew bundle
 
 stow --ignore=".DS_Store|.netrwhist|autoload/plug.vim|coc-settings.json|colors/solarized.vim" vim
 stow --ignore=".DS_Store|.gitconfig" git
