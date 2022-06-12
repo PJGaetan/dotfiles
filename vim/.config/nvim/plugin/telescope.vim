@@ -6,6 +6,7 @@ nnoremap <leader>dg :lua require('telescope.builtin').live_grep({ cwd = "$HOME/d
 nnoremap <leader>px :lua require('telescope.builtin').grep_string({search = vim.fn.input("Grep For > ")})<CR>
 nnoremap <leader>pw :lua require('telescope.builtin').grep_string({ search = vim.fn.expand("<cword>") })<CR>
 
+nnoremap <leader>ff :lua require('telescope.builtin').find_files({ cwd = "$PWD", file_ignore_patterns = { "env/*","package/*" }})<cr>
 nnoremap <leader>pf :lua require('telescope.builtin').git_files({ cwd = "$PWD" })<CR>
 
 nnoremap <leader>gb :lua require('telescope.builtin').git_branches({ initial_mode = 'normal' })<CR>
