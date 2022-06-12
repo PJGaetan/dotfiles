@@ -5,6 +5,8 @@ stow --ignore=".DS_Store|.netrwhist|autoload/plug.vim|coc-settings.json|colors/s
 stow --ignore=".DS_Store|.gitconfig" git
 stow --ignore=".DS_Store" tmux
 stow --ignore=".DS_Store|Code/User/settings.json" vscode
+stow --ignore=".DS_Store" jupyter
+stow --ignore=".DS_Store" ipython
 
 
 unlink ~/.zshrc
