@@ -28,10 +28,12 @@ let g:python3_host_prog = '/Users/GaetanPJ/.pyenv/versions/py3nvim/bin/python'
   Plug 'nvim-treesitter/playground'
   " Plug 'neovim/nvim-lspconfig'
   "Plug 'lewis6991/gitsigns.nvim'
+  Plug 'tpope/vim-commentary'
   Plug 'prabirshrestha/vim-lsp'
   Plug 'mattn/vim-lsp-settings'
   Plug 'prabirshrestha/asyncomplete.vim'
   Plug 'prabirshrestha/asyncomplete-lsp.vim'
+  Plug 'camgraff/telescope-tmux.nvim'
 endif
 
 " lsp mapping
@@ -59,7 +61,10 @@ nmap <leader>qq :cclose <CR>
 Plug 'kyazdani42/nvim-web-devicons'
 
 " jupyter-ascending
-Plug 'untitled-ai/jupyter_ascending.vim'
+" Plug 'untitled-ai/jupyter_ascending.vim'
+" Plug 'jupyter-vim/jupyter-vim'
+
+
 
 Plug 'tpope/vim-surround'
 
@@ -122,9 +127,6 @@ set backspace=indent,eol,start
 set matchpairs+=<:> " use % to jump between pairs
 runtime! macros/matchit.vim
 
-" Move up/down editor lines
-nnoremap j gj
-nnoremap k gk
 
 " Allow hidden buffers
 set hidden
@@ -171,10 +173,6 @@ set listchars=tab:▸\ ,eol:¬
 " set list " To enable by default
 " Or use your leader key + l to toggle on/off
 map <leader>l :set list!<CR> " Toggle tabs and EOL
-
-" telescope binding
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').git_files()<cr>
 
 " jupyter ascending key binding
 nmap <leader><leader>x <Plug>JupyterExecute
