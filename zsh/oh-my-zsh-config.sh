@@ -79,5 +79,6 @@ plugins=(
   # zsh-autosuggestions
   dotenv
   history
+  poetry
 )
 

@@ -49,8 +49,6 @@ alias vim="nvim"
 alias tre="tree -paACL 2 --filelimit=100"
 
 
-# Allow pyenv to ovverride python env
-eval "$(pyenv init -)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -70,3 +68,22 @@ complete -o nospace -C /usr/local/bin/terraform terraform
 
 # added by travis gem
 [ ! -s /Users/gaetanpierre-justin/.travis/travis.sh ] || source /Users/gaetanpierre-justin/.travis/travis.sh
+
+FZF_DBT_PATH=~/.fzf-dbt/fzf-dbt.sh
+if [[ ! -f $FZF_DBT_PATH ]]; then
+    FZF_DBT_DIR=$(dirname $FZF_DBT_PATH)
+    print -P "%F{green}Installing fzf-dbt into $FZF_DBT_DIR%f"
+    mkdir -p $FZF_DBT_DIR
+    command curl -L https://raw.githubusercontent.com/Infused-Insight/fzf-dbt/main/src/fzf_dbt.sh > $FZF_DBT_PATH && \
+        print -P "%F{green}Installation successful.%f" || \
+        print -P "%F{red}The download has failed.%f"
+fi
+
+export FZF_DBT_PREVIEW_CMD="cat {}"
+export FZF_DBT_HEIGHT=80%
+source $FZF_DBT_PATH
+
+# Allow pyenv to ovverride python env
+# export PYENV_ROOT="$HOME/.pyenv"
+# command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"

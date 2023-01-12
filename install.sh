@@ -1,4 +1,7 @@
 #!/usr/bin/sh
+
+git submodule update --init --recursive
+
 brew bundle
 
 stow --ignore=".DS_Store|.netrwhist|autoload/plug.vim|coc-settings.json|colors/solarized.vim" vim
