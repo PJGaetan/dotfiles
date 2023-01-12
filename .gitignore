@@ -3,3 +3,15 @@ vim/.vim/bundle/
 vim/.vim/pack/
 vim/.vim/plugged/
 zsh/cache/*
+vscode/Library/Application Support/*
+vim/old-config/*
+vim/old-vim/*
+tmux/.tmux/plugins/*
+zsh/custom/plugins/*
+vim/.config/nvim/plugin/*
+vim/.vimrc.history
+install.sh
+Brewfile.lock.json
+vim/.config/iterm2/AppSupport
+vim/.config/infracost/credentials.yml
+vim/.config/infracost/.state.json
