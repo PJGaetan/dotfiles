@@ -41,5 +41,12 @@
       "viewType": "jupyter.notebook.ipynb",
       "filenamePattern": "*.ipynb"
     }
-  ]
+  ],
+  "python.interpreter.infoVisibility": "always",
+  "python.analysis.extraPaths": [],
+  "[python]": {
+    "editor.formatOnType": true
+  },
+  "git.ignoreMissingGitWarning": true,
+  "aws.telemetry": false
 }

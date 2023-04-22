@@ -13,6 +13,9 @@ source $ZSH/oh-my-zsh.sh
 source $ZSH/fzf.sh
 source $ZSH/gittree.sh
 
+# not loading in vim
+source ~/.zprofile
+
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
@@ -87,3 +90,15 @@ source $FZF_DBT_PATH
 # export PYENV_ROOT="$HOME/.pyenv"
 # command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+FZF_DBT_PATH=~/.fzf-dbt/fzf-dbt.sh
+if [[ ! -f /Users/gaetan.pierrejustin/.fzf-dbt/fzf-dbt.sh ]]; then
+    FZF_DBT_DIR=/Users/gaetan.pierrejustin/.fzf-dbt
+    print -P "%F{green}Installing fzf-dbt into %f"
+    mkdir -p 
+    command curl -L https://raw.githubusercontent.com/Infused-Insight/fzf-dbt/main/src/fzf_dbt.sh > /Users/gaetan.pierrejustin/.fzf-dbt/fzf-dbt.sh &&         print -P "%F{green}Installation successful.%f" ||         print -P "%F{red}The download has failed.%f"
+fi
+
+export FZF_DBT_PREVIEW_CMD="cat {}"
+export FZF_DBT_HEIGHT=80%
+source /Users/gaetan.pierrejustin/.fzf-dbt/fzf-dbt.sh
