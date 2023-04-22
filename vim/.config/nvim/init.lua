@@ -43,6 +43,9 @@ require('packer').startup(function(use)
     after = 'nvim-treesitter',
   }
 
+  -- code prediction a la copilote
+  use { 'Exafunction/codeium.vim'}
+
   -- Git related plugins
   use 'tpope/vim-fugitive'
   use 'tpope/vim-rhubarb'
@@ -53,6 +56,7 @@ require('packer').startup(function(use)
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
   use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
+  use 'tpope/vim-unimpaired' -- Detect tabstop and shiftwidth automatically
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -60,8 +64,23 @@ require('packer').startup(function(use)
   -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
 
+  -- File browser for telescope
+  use { "nvim-telescope/telescope-file-browser.nvim" }
+
+  -- Icone in file browser
+  use 'nvim-tree/nvim-web-devicons'
+
+  -- dbt nvim
+  use { 'PedramNavid/dbtpal', requires = { { 'nvim-lua/plenary.nvim' }, {'nvim-telescope/telescope.nvim'} }}
+
   -- vim tmux
-  use { 'alexghergh/nvim-tmux-navigation' }
+  -- use { 'alexghergh/nvim-tmux-navigation' }
+  use {'mrjones2014/smart-splits.nvim'}
+
+  -- vim git workfile
+  use { 'cljoly/telescope-repo.nvim' }
+  use { 'airblade/vim-rooter' }
+  use { 'ThePrimeagen/git-worktree.nvim' }
 
   -- vim wiki
   use { 'lervag/wiki.vim' }
@@ -69,6 +88,7 @@ require('packer').startup(function(use)
   use { 'opdavies/toggle-checkbox.nvim' }
 
   use { 'startup-nvim/startup.nvim', requires = {"nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim"}}
+
 
   -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
   local has_plugins, plugins = pcall(require, 'custom.plugins')
@@ -156,6 +176,110 @@ vim.g.startup_bookmarks = {
   ["C"] = '~/dotfiles/vim/.config/nvim/init.lua',
 }
 
+-- resizing splits
+-- these keymaps will also accept a range,
+-- for example `10<A-h>` will `resize_left` by `(10 * config.default_amount)`
+-- <opt-j>
+vim.keymap.set('n', '˙', require('smart-splits').resize_left)
+vim.keymap.set('n', '∆', require('smart-splits').resize_down)
+vim.keymap.set('n', '˚', require('smart-splits').resize_up)
+vim.keymap.set('n', '¬', require('smart-splits').resize_right)
+-- moving between splits
+vim.keymap.set('n', '<C-h>', require('smart-splits').move_cursor_left)
+vim.keymap.set('n', '<C-j>', require('smart-splits').move_cursor_down)
+vim.keymap.set('n', '<C-k>', require('smart-splits').move_cursor_up)
+vim.keymap.set('n', '<C-l>', require('smart-splits').move_cursor_right)
+-- swapping buffers between windows
+vim.keymap.set('n', '<leader><leader>h', require('smart-splits').swap_buf_left)
+vim.keymap.set('n', '<leader><leader>j', require('smart-splits').swap_buf_down)
+vim.keymap.set('n', '<leader><leader>k', require('smart-splits').swap_buf_up)
+vim.keymap.set('n', '<leader><leader>l', require('smart-splits').swap_buf_right)
+
+vim.keymap.set('n', '<leader>vs', '<cmd>vnew term://zsh<CR>')
+vim.keymap.set('n', '<leader>hs', '<cmd>belowright new term://zsh<CR>')
+
+-- mapping to easier navigate from terminal mode
+vim.keymap.set('t', '<C-h>', require('smart-splits').move_cursor_left)
+vim.keymap.set('t', '<C-j>', require('smart-splits').move_cursor_down)
+vim.keymap.set('t', '<C-k>', require('smart-splits').move_cursor_up)
+vim.keymap.set('t', '<C-l>', require('smart-splits').move_cursor_right)
+
+
+require("dbtpal").setup {
+  -- Path to the dbt executable
+  path_to_dbt = "dbt",
+
+  -- Path to the dbt project, if blank, will auto-detect
+  -- using currently open buffer for all sql,yml, and md files
+  -- path_to_dbt_project = "",
+
+  -- Path to dbt profiles directory
+  path_to_dbt_profiles_dir = vim.fn.expand "~/.dbt",
+
+  -- Search for ref/source files in macros and models folders
+  extended_path_search = true,
+
+  -- Prevent modifying sql files in target/(compiled|run) folders
+  protect_compiled_files = true
+}
+
+-- Setup key mappings
+
+vim.keymap.set('n', '<leader>drf', require('dbtpal').run)
+vim.keymap.set('n', '<leader>drp', require('dbtpal').run_all)
+vim.keymap.set('n', '<leader>dtf', require('dbtpal').test)
+vim.keymap.set('n', '<leader>dm', require('dbtpal.telescope').dbt_picker)
+
+require('telescope').load_extension('dbtpal')
+
+local fb_actions = require("telescope").extensions.file_browser.actions
+
+require("telescope").setup {
+  extensions = {
+    file_browser = {
+      mappings = {
+        ["i"] = {
+          -- <A-f>
+          ["ƒ>"] = fb_actions.create_from_prompt
+        },
+      },
+    },
+    repo = {
+      list = {
+        search_dirs = {
+          "~/git",
+        },
+      },
+    },
+  },
+}
+
+require("telescope").load_extension("file_browser")
+require('telescope').load_extension('repo')
+
+-- Only cd current buffer instead of the whole editor
+vim.g.rooter_cd_cmd = 'lcd'
+
+vim.keymap.set("n", "<leader>l", require('telescope').extensions.repo.list)
+
+require("telescope").load_extension("git_worktree")
+vim.keymap.set("n", "<leader>gw", require('telescope').extensions.git_worktree.git_worktrees)
+vim.keymap.set("n", "<leader>gcw", require('telescope').extensions.git_worktree.create_git_worktree)
+vim.keymap.set("n", "<leader>gs", '<cmd>Git<CR>')
+vim.keymap.set("n", "<leader>gd", '<cmd>0Gclog<CR>')
+
+
+-- codeium configuration
+vim.g.codeium_manual = true
+vim.g.codeium_disable_bindings = 1
+vim.keymap.set('i', '<C-g>', function () return vim.fn['codeium#Accept']() end, { expr = true })
+vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
+vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
+vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
+vim.keymap.set('i', '<c-c>', function() return vim.fn['codeium#Complete']() end, { expr = true })
+
+
+
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -189,7 +313,7 @@ let g:wiki_filetypes = ['md', 'wiki']
 ]])
 
 -- Toggle checkbox
-vim.keymap.set("n", "<leader>tt", ":lua require('toggle-checkbox').toggle()<CR>")
+vim.keymap.set("n", "<leader>tt", require('toggle-checkbox').toggle)
 
 -- Enable `lukas-reineke/indent-blankline.nvim`
 -- See `:help indent_blankline.txt`
@@ -210,22 +334,15 @@ require('gitsigns').setup {
   },
 }
 
+vim.keymap.set("v", "<leader>ga", function() require('gitsigns').stage_hunk{vim.fn.line("."), vim.fn.line("v")} end)
+vim.keymap.set("v", "<leader>gr", function() require('gitsigns').reset_hunk {vim.fn.line("."), vim.fn.line("v")} end)
+vim.keymap.set("n", "<leader>ga", require('gitsigns').stage_hunk)
+vim.keymap.set("n", "<leader>gr", require('gitsigns').reset_hunk)
+
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {}
 
--- Configure nvim-tmux
-require('nvim-tmux-navigation').setup {
-  disable_when_zoomed = true, -- defaults to false
-  keybindings = {
-    left = "<C-h>",
-    down = "<C-j>",
-    up = "<C-k>",
-    right = "<C-l>",
-    last_active = "<C-\\>",
-    next = "<C-Space>",
-  }
-}
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
@@ -241,11 +358,15 @@ vim.keymap.set('n', '<leader>/', function()
   })
 end, { desc = '[/] Fuzzily search in current buffer]' })
 
-vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>sf', function() return require('telescope.builtin').find_files({hidden=false}) end , { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>sdo', function() return require('telescope.builtin').find_files({hidden=true, cwd="~/dotfiles"}) end , { desc = '[S]earch [DO]tfiles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<space>fe', require('telescope').extensions.file_browser.file_browser, { noremap = true,  desc = '[F]iles [E]xplorer'  })
+
+
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -316,7 +437,7 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
--- LSP settings.
+-- lSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
@@ -345,7 +466,7 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  nmap('˚', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -383,19 +504,20 @@ local servers = {
   pyright = {
     filetypes = { "python" },
   },
-  -- rust_analyzer = {},
+  terraformls = {},
   -- tsserver = {},
   efm = {
       lintDebounce = 100,
       languages = languages,
   },
-
-  sumneko_lua = {
+  lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
     },
   },
+  --rust_analyzer = {},
+  ['rust_analyzer'] = {},
 }
 
 local filetypes = {
