@@ -171,10 +171,10 @@ vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- [[ startup.nvim config ]]
-require("startup").setup { theme = "startify" }
-vim.g.startup_bookmarks = {
-  ["C"] = '~/dotfiles/vim/.config/nvim/init.lua',
-}
+-- require("startup").setup { theme = "startify" }
+-- vim.g.startup_bookmarks = {
+--   ["C"] = '~/dotfiles/vim/.config/nvim/init.lua',
+-- }
 
 -- resizing splits
 -- these keymaps will also accept a range,
@@ -240,7 +240,7 @@ require("telescope").setup {
       mappings = {
         ["i"] = {
           -- <A-f>
-          ["ƒ>"] = fb_actions.create_from_prompt
+          ["ƒ"] = fb_actions.create_from_prompt
         },
       },
     },
@@ -261,6 +261,7 @@ require('telescope').load_extension('repo')
 vim.g.rooter_cd_cmd = 'lcd'
 
 vim.keymap.set("n", "<leader>l", require('telescope').extensions.repo.list)
+vim.keymap.set("n", "<leader>da", '<cmd>Lexplore<CR>')
 
 require("telescope").load_extension("git_worktree")
 vim.keymap.set("n", "<leader>gw", require('telescope').extensions.git_worktree.git_worktrees)
