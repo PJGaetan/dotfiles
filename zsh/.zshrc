@@ -8,6 +8,15 @@ ZSH_DOTENV_FILE=.env
 
 source $ZSH/oh-my-zsh.sh
 
+#Plugin manager
+source ~/.zplug/init.zsh
+
+zplug raabf/gitmoji-fuzzy-hook, \
+    from:gitlab
+GITMOJI_FUZZY_HOOK_NO_COMMENTS=false
+GITMOJI_FUZZY_HOOK_USE_CODE=true
+
+
 # User configuration
 
 source $ZSH/fzf.sh
@@ -66,7 +75,8 @@ bindkey -M vicmd 'vv' edit-command-line
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-autoload -U +X bashcompinit && bashcompinit
+# autoload -U +X bashcompinit && bashcompinit
+autoload -U compinit; compinit
 complete -o nospace -C /usr/local/bin/terraform terraform
 
 # added by travis gem
@@ -102,3 +112,9 @@ fi
 export FZF_DBT_PREVIEW_CMD="cat {}"
 export FZF_DBT_HEIGHT=80%
 source /Users/gaetan.pierrejustin/.fzf-dbt/fzf-dbt.sh
+
+export GOPATH="$HOME/go"; export GOROOT="$HOME/.go"; export PATH="$GOPATH/bin:$PATH"; # g-install: do NOT edit, see https://github.com/stefanmaric/g
+alias ggovm="$GOPATH/bin/g"; # g-install: do NOT edit, see https://github.com/stefanmaric/g
+
+export N_PREFIX=$HOME/.n
+export PATH=$N_PREFIX/bin:$PATH

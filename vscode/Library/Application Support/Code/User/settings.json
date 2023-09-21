@@ -1,11 +1,13 @@
 {
-  "eslint.validate": ["javascript", "javascriptreact", "vue"],
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "vue"
+  ],
   "editor.suggestSelection": "first",
   "workbench.iconTheme": "eq-material-theme-icons-palenight",
   "workbench.colorTheme": "Dracula",
   "terminal.integrated.shell.osx": "/bin/zsh",
-
   "vs-kubernetes": {
     "vs-kubernetes.minikube-path.mac": "/Users/GaetanPJ/.vs-kubernetes/tools/minikube/darwin-amd64/minikube",
     "vs-kubernetes.helm-path.mac": "/Users/GaetanPJ/.vs-kubernetes/tools/helm/darwin-amd64/helm",
@@ -26,7 +28,6 @@
     // For Stylelint
     "source.fixAll.stylelint": true
   },
-
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -44,9 +45,47 @@
   ],
   "python.interpreter.infoVisibility": "always",
   "python.analysis.extraPaths": [],
+  "python.formatting.blackPath": "/Users/gaetan.pierrejustin/.pyenv/shims/black",
   "[python]": {
     "editor.formatOnType": true
   },
   "git.ignoreMissingGitWarning": true,
-  "aws.telemetry": false
+  "aws.telemetry": false,
+  "aws.suppressPrompts": {
+    "codeWhispererConnectionExpired": true
+  },
+  "diffEditor.ignoreTrimWhitespace": false,
+  "python.testing.pytestEnabled": true,
+  "python.analysis.inlayHints.callArgumentNames": true,
+  "redhat.telemetry.enabled": false,
+  "yaml.customTags": [
+    "!And",
+    "!And sequence",
+    "!If",
+    "!If sequence",
+    "!Not",
+    "!Not sequence",
+    "!Equals",
+    "!Equals sequence",
+    "!Or",
+    "!Or sequence",
+    "!FindInMap",
+    "!FindInMap sequence",
+    "!Base64",
+    "!Join",
+    "!Join sequence",
+    "!Cidr",
+    "!Ref",
+    "!Sub",
+    "!Sub sequence",
+    "!GetAtt",
+    "!GetAZs",
+    "!ImportValue",
+    "!ImportValue sequence",
+    "!Select",
+    "!Select sequence",
+    "!Split",
+    "!Split sequence"
+  ],
+  "snyk.yesWelcomeNotification": false
 }
