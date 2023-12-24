@@ -1,0 +1,76 @@
+[sqlfluff]
+# verbose is an integer (0-2) indicating the level of log output
+verbose = 0
+# Turn off color formatting of output
+nocolor = False
+# Supported dialects https://docs.sqlfluff.com/en/stable/dialects.html
+# Or run 'sqlfluff dialects'
+dialect = snowflake
+# One of [raw|jinja|python|placeholder]
+templater = jinja
+# Comma separated list of rules to check, or None for all
+rules = L002,L003,L004,L009,L010,L019,L022,L036,L039,L051,L042,L032,L044,L054
+# Comma separated list of rules to exclude, or None
+# exclude_rules = L035,L031,L034,L043,L029,L027,L042,L060
+# The depth to recursively parse to (0 for unlimited)
+recurse = 0
+# Below controls SQLFluff output, see max_line_length for SQL output
+output_line_length = 280
+# Number of passes to run before admitting defeat
+runaway_limit = 10
+# Ignore errors by category (one or more of the following, separated by commas: lexing,linting,parsing,templating)
+ignore = None
+# Ignore linting errors found within sections of code coming directly from
+# templated code (e.g. from within Jinja curly braces. Note that it does not
+# ignore errors from literal code found within template loops.
+ignore_templated_areas = True
+# Comma separated list of file extensions to lint
+# NB: This config will only apply in the root folder
+sql_file_exts = .sql,.sql.j2,.dml,.ddl
+
+[sqlfluff:indentation]
+# See https://docs.sqlfluff.com/en/stable/indentation.html
+indented_joins = True
+indented_ctes = False
+indented_using_on = False
+template_blocks_indent = False
+
+[sqlfluff:templater]
+unwrap_wrapped_queries = True
+
+[sqlfluff:templater:jinja]
+apply_dbt_builtins = True
+load_macros_from_path = dbt/macros/
+
+[sqlfluff:templater:dbt]
+profiles_dir = ./dbt
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = upper
+[sqlfluff:rules:capitalisation.identifiers]
+capitalisation_policy = lower
+[sqlfluff:rules:capitalisation.functions]
+extended_capitalisation_policy = upper
+[sqlfluff:rules:capitalisation.literals]
+capitalisation_policy = upper
+[sqlfluff:rules:capitalisation.types]
+extended_capitalisation_policy = upper
+
+[sqlfluff:rules:structure.subquery]
+# By default, allow subqueries in from clauses, but not join clauses
+forbid_subquery_in = both
+
+[sqlfluff:rules:ambiguous.column_references]
+# GROUP BY/ORDER BY column references
+group_by_and_order_by_style = explicit
+
+# Some rules can be configured directly from the config common to other rules
+[sqlfluff:rules]
+max_line_length = 280
+
+# Layout configuration
+# See https://docs.sqlfluff.com/en/stable/layout.html#configuring-layout-and-spacing
+[sqlfluff:layout:type:comma]
+spacing_before = touch
+line_position = leading
+

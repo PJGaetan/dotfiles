@@ -5,7 +5,9 @@ export FZF_DEFAULT_OPTS="
 --preview='([[ -f {} ]] && (bat --style=numbers --theme=Dracula --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200' 
 --preview-window=right:60%:wrap:hidden
 --reverse
---info=inline
+--info=hidden
+--separator=''
+--scrollbar=''
 --bind '?:toggle-preview'
 --bind 'ctrl-a:select-all'
 --bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
@@ -16,6 +18,7 @@ export FZF_DEFAULT_OPTS="
 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 
 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4
 "
+
 # Dracula color scheme
 
 # Setting fd as the default source for fzf

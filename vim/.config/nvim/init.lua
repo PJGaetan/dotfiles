@@ -10,6 +10,9 @@ end
 require("packer").startup(function(use)
 	-- Package manager
 	use("wbthomason/packer.nvim")
+	--
+	-- Useful status updates for LSP
+	use({ "j-hui/fidget.nvim", tag = "legacy" })
 
 	use({
 		-- LSP Configuration & Plugins
@@ -18,9 +21,6 @@ require("packer").startup(function(use)
 			-- Automatically install LSPs to stdpath for neovim
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-
-			-- Useful status updates for LSP
-			"j-hui/fidget.nvim",
 
 			-- Additional lua configuration, makes nvim stuff amazing
 			"folke/neodev.nvim",
@@ -40,6 +40,7 @@ require("packer").startup(function(use)
 			pcall(require("nvim-treesitter.install").update({ with_sync = true }))
 		end,
 	})
+	use("vrischmann/tree-sitter-templ")
 
 	use({
 		-- Additional text objects via treesitter
@@ -53,7 +54,7 @@ require("packer").startup(function(use)
 	use({ "Exafunction/codeium.vim" })
 
 	-- null-ls for formatting
-	use({ "jose-elias-alvarez/null-ls.nvim" })
+	use({ "nvimtools/none-ls.nvim" })
 
 	-- send cmd from vim to tmux
 	use({ "preservim/vimux" })
@@ -81,6 +82,9 @@ require("packer").startup(function(use)
 	use("tpope/vim-rhubarb")
 	use("lewis6991/gitsigns.nvim")
 
+	-- vim save sessions
+	use("tpope/vim-obsession")
+
 	use("Mofiqul/dracula.nvim") -- Draculq theme
 	use("nvim-lualine/lualine.nvim") -- Fancier statusline
 	use("lukas-reineke/indent-blankline.nvim") -- Add indentation guides even on blank lines
@@ -96,6 +100,7 @@ require("packer").startup(function(use)
 
 	-- Icone in file browser
 	use("nvim-tree/nvim-web-devicons")
+	use("stevearc/oil.nvim")
 
 	-- dbt nvim
 	use({ "PedramNavid/dbtpal", requires = { { "nvim-lua/plenary.nvim" }, { "nvim-telescope/telescope.nvim" } } })
@@ -108,6 +113,13 @@ require("packer").startup(function(use)
 	use({ "cljoly/telescope-repo.nvim" })
 	use({ "airblade/vim-rooter" })
 	use({ "ThePrimeagen/git-worktree.nvim" })
+
+	-- harpoon
+	use({
+		"ThePrimeagen/harpoon",
+		branch = "harpoon2",
+		requires = { { "nvim-lua/plenary.nvim" } },
+	})
 
 	-- vim wiki
 	use({ "lervag/wiki.vim" })
@@ -125,6 +137,9 @@ require("packer").startup(function(use)
 
 	-- context above functions
 	use({ "nvim-treesitter/nvim-treesitter-context" })
+
+	-- <leader>z for full screen
+	use({ "troydm/zoomwintab.vim" })
 
 	-- allow number when wnidws not in focus
 	use({ "jeffkreeftmeijer/vim-numbertoggle" })
@@ -165,7 +180,10 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 -- See `:help vim.o`
 
 -- Set highlight on search
-vim.o.hlsearch = false
+vim.o.hlsearch = true
+vim.o.redrawtime = 10000
+-- Remove highlight after search by pressing Esc
+vim.keymap.set({ "n" }, "<Esc>", "<Esc>:nohlsearch<CR>", { silent = true })
 
 -- Make line numbers default
 vim.wo.number = true
@@ -236,18 +254,23 @@ require("pjgaetan.dbt")
 -- Only cd current buffer instead of the whole editor
 vim.g.rooter_cd_cmd = "lcd"
 
-vim.keymap.set("n", "<leader>da", "<cmd>Lexplore<CR>")
+-- using oil instead
+-- vim.keymap.set("n", "<leader>da", "<cmd>Lexplore<CR>")
 
 require("pjgaetan.tmux-vim")
 
+vim.keymap.set("n", "<leader>z", "<cmd>ZoomWinTabToggle<CR>")
+
 -- codeium configuration
-vim.g.codeium_manual = true
-vim.g.codeium_disable_bindings = 1
--- vim.keymap.set('i', '<C-g>', function () return vim.fn['codeium#Accept']() end, { expr = true })
--- vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
--- vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
--- vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
--- vim.keymap.set('i', '<c-c>', function() return vim.fn['codeium#Complete']() end, { expr = true })
+vim.g.codeium_manual = false
+vim.keymap.set("i", "\t", function()
+	return vim.fn["codeium#Accept"]()
+end, { expr = true })
+
+vim.g.codeium_filetypes = {
+	markdown = false,
+	json = false,
+}
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -260,14 +283,47 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	pattern = "*",
 })
 
+local function codeium_status_line()
+	return vim.fn["codeium#GetStatusString"]()
+end
+
 -- Set lualine as statusline
 -- See `:help lualine.txt`
 require("lualine").setup({
+	extensions = {},
 	options = {
 		icons_enabled = false,
 		theme = "dracula-nvim",
 		component_separators = "|",
 		section_separators = "",
+	},
+	sections = {
+		lualine_b = { "diff", "diagnostics" },
+		lualine_c = {
+			{
+				"filename",
+				file_status = true,
+				newfile_status = false,
+				path = 4, -- 4: Filename and parent dir, with tilde as the home directory
+				shorting_target = 40,
+
+				symbols = {
+					readonly = "[-]",
+					unnamed = "[No Name]",
+					newfile = "[New]",
+				},
+			},
+		},
+		lualine_y = { codeium_status_line, "selectioncount", "searchcount" },
+	},
+	inactive_sections = {
+		lualine_c = {
+			{
+				"filename",
+				path = 1, -- 1: Relative path
+				shorting_target = 40,
+			},
+		},
 	},
 })
 
@@ -277,6 +333,7 @@ local ft = require("Comment.ft")
 ft
 	-- Or set both line and block commentstring
 	.set("sql", { "--%s", "--%s" })
+	.set("templ", { "<!-- %s -->", "<!-- %s -->" })
 
 -- Vim wiki setup
 vim.g.wiki_root = "~/wiki"
@@ -289,17 +346,38 @@ vim.keymap.set("n", "<leader><leader>t", require("toggle-checkbox").toggle)
 
 -- Enable `lukas-reineke/indent-blankline.nvim`
 -- See `:help indent_blankline.txt`
-require("indent_blankline").setup({
-	char = "┊",
-	show_trailing_blankline_indent = false,
+require("ibl").setup({
+	indent = {
+		char = "┊",
+	},
 })
 
-require("treesitter-context").setup({})
+require("nvim-web-devicons").setup({})
+require("oil").setup({
+	columns = {
+		-- "icon",
+		-- "type",
+		-- "permissions",
+		-- "size",
+		-- "mtime",
+	},
+	view_options = {
+		-- Show files and directories that start with "."
+		show_hidden = true,
+	},
+})
+
+vim.keymap.set("n", "<leader>fe", require("oil").toggle_float)
+
+require("treesitter-context").setup({
+	multiline_threshold = 3, -- Maximum number of lines to show for a single context
+})
 
 require("pjgaetan.obsidian")
 require("pjgaetan.git")
 require("pjgaetan.telescope")
 require("pjgaetan.treesitter")
+require("pjgaetan.harpoon")
 
 require("devcontainer").setup({})
 

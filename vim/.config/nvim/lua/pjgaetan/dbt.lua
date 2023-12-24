@@ -21,6 +21,7 @@ require("dbtpal").setup({
 vim.keymap.set("n", "<leader>drf", require("dbtpal").run)
 vim.keymap.set("n", "<leader>drp", require("dbtpal").run_all)
 vim.keymap.set("n", "<leader>dtf", require("dbtpal").test)
+vim.keymap.set("n", "<leader>dc", require("dbtpal").compile)
 vim.keymap.set("n", "<leader>dm", require("dbtpal.telescope").dbt_picker)
 
 require("telescope").load_extension("dbtpal")

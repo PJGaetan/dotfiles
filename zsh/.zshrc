@@ -118,3 +118,29 @@ alias ggovm="$GOPATH/bin/g"; # g-install: do NOT edit, see https://github.com/st
 
 export N_PREFIX=$HOME/.n
 export PATH=$N_PREFIX/bin:$PATH
+
+# pnpm
+export PNPM_HOME="/Users/gaetan.pierrejustin/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+#
+alias mux=tmuxinator
+
+function switch_audio(){
+  SwitchAudioSource -a -f cli |\
+	grep output | grep -v "$(SwitchAudioSource -c)" | cut -d "," -f 1 |\
+	fzf --reverse --header=switch-audio-source|\
+	xargs -I {} SwitchAudioSource -s {}
+}
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/gaetan.pierrejustin/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/gaetan.pierrejustin/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/gaetan.pierrejustin/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/gaetan.pierrejustin/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+# Turso
+export PATH="/Users/gaetan.pierrejustin/.turso:$PATH"

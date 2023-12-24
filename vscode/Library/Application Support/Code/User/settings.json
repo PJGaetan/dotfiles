@@ -21,12 +21,9 @@
   // Set the default
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    // For ESLint
-    "source.fixAll.eslint": true,
-    // For TSLint
-    "source.fixAll.tslint": true,
-    // For Stylelint
-    "source.fixAll.stylelint": true
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.tslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
   },
   "files.exclude": {
     "**/.git": true,
@@ -56,7 +53,6 @@
   },
   "diffEditor.ignoreTrimWhitespace": false,
   "python.testing.pytestEnabled": true,
-  "python.analysis.inlayHints.callArgumentNames": true,
   "redhat.telemetry.enabled": false,
   "yaml.customTags": [
     "!And",
@@ -87,5 +83,6 @@
     "!Split",
     "!Split sequence"
   ],
-  "snyk.yesWelcomeNotification": false
+  "snyk.yesWelcomeNotification": false,
+  "aws.samcli.location": "/usr/local/bin/sam"
 }

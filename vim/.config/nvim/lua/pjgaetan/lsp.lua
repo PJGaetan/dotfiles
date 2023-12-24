@@ -48,39 +48,7 @@ local on_attach = function(_, bufnr)
 		vim.lsp.buf.format()
 	end, { desc = "Format current buffer with LSP" })
 end
-
--- Enable the following language servers
--- Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-
---  Local languages used by efm in  order to apply custom formatting
---  Not use for now but might be used to replace null-ls
-local languages = {
-	-- python = {
-	--   {
-	--     formatCommand = "black --quiet -",
-	--     formatStdin = true
-	--   }
-	-- },
-	-- terraform = {
-	--   {
-	--     formatCommand = "terraform fmt -",
-	--     formatStdin = true
-	--   }
-	-- },
-}
-
 --
-
---
-
--- local filetypes = {
---   efm = vim.tbl_keys(languages),
--- }
---
--- local init_options = {
---   efm = { documentFormatting = true },
--- }
-
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
@@ -96,6 +64,8 @@ local servers = {
 	-- },
 	gopls = {},
 	cssls = {},
+	tsserver = {},
+	["templ"] = {},
 	lua_ls = {
 		Lua = {
 			workspace = { checkThirdParty = false },
@@ -128,4 +98,11 @@ mason_lspconfig.setup_handlers({
 			-- init_options = init_options[server_name],
 		})
 	end,
+})
+
+-- additional filetypes
+vim.filetype.add({
+	extension = {
+		templ = "templ",
+	},
 })

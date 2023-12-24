@@ -1,7 +1,11 @@
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require("telescope").setup({
-	defaults = { file_ignore_patterns = { "vendor", "env", "node_modules" } },
+	defaults = {
+		file_ignore_patterns = { "vendor", "env", "node_modules" },
+		layout_strategy = "vertical",
+		layout_config = { width = 0.8, height = 0.95, preview_cutoff = 0 },
+	},
 	extensions = {
 		repo = {
 			list = {
@@ -9,13 +13,6 @@ require("telescope").setup({
 					"~/git",
 				},
 			},
-		},
-		gitmoji = {
-			action = function(entry)
-				local emoji = entry.value.text
-				local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-				vim.api.nvim_buf_set_text(0, row - 1, col, row - 1, col, { emoji })
-			end,
 		},
 	},
 })
@@ -27,8 +24,9 @@ require("telescope").load_extension("repo")
 vim.keymap.set("n", "<leader>l", require("telescope").extensions.repo.list)
 
 -- gitmoji
-require("telescope").load_extension("gitmoji")
-vim.keymap.set("i", "<c-g><c-i>", require("telescope").extensions.gitmoji.gitmoji)
+vim.keymap.set("i", "<c-g><c-i>", function()
+	require("telescope.builtin.").symbols(require("telescope.themes").get_cursor({}))
+end)
 
 -- select dir then grep inside dir in Telescope
 require("dir-telescope").setup({
@@ -42,6 +40,10 @@ require("telescope").load_extension("dir")
 vim.keymap.set("n", "<leader>sf", function()
 	return require("telescope.builtin").find_files({ hidden = false })
 end, { desc = "[S]earch [F]iles" })
+vim.keymap.set("n", "<leader>ff", function()
+	return require("telescope.builtin").find_files(require("telescope.themes").get_ivy({
+	}))
+end )
 vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
 vim.keymap.set("n", "<leader>sd", "<cmd>Telescope dir live_grep<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>/", function()

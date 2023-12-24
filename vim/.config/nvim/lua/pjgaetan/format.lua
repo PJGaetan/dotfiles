@@ -7,7 +7,9 @@ require("null-ls").setup({
 		null_ls.builtins.formatting.terraform_fmt.with({
 			filetypes = { "terraform", "tf", "hcl" },
 		}),
-		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.formatting.stylua.with({
+			filetypes = { "lua" },
+		}),
 		null_ls.builtins.diagnostics.codespell.with({
 			filetypes = { "lua", "markdown", "hcl" },
 		}),
@@ -30,8 +32,11 @@ require("null-ls").setup({
 				"txt",
 			},
 		}),
+		null_ls.builtins.formatting.sqlfluff.with({
+			extra_args = { "--dialect", "snowflake" }, -- change to your dialect
+			filetypes = { "sql", "dbt" },
+		}),
 
-		-- null_ls.builtins.formatting.sqlfmt,
 		null_ls.builtins.diagnostics.sqlfluff.with({
 			extra_args = { "--dialect", "snowflake" },
 		}),
