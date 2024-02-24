@@ -40,7 +40,9 @@ require("null-ls").setup({
 		null_ls.builtins.diagnostics.sqlfluff.with({
 			extra_args = { "--dialect", "snowflake" },
 		}),
-		null_ls.builtins.formatting.black,
+		null_ls.builtins.formatting.black.with({
+			extra_args = { "-l", "120" },
+		}),
 		null_ls.builtins.formatting.gofumpt,
 		null_ls.builtins.diagnostics.shellcheck.with({
 			diagnostics_format = "#{m} [#{c}]",

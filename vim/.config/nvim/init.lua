@@ -52,6 +52,7 @@ require("packer").startup(function(use)
 
 	-- code prediction a la copilote
 	use({ "Exafunction/codeium.vim" })
+	use({ "github/copilot.vim" })
 
 	-- null-ls for formatting
 	use({ "nvimtools/none-ls.nvim" })
@@ -81,6 +82,7 @@ require("packer").startup(function(use)
 	use("tpope/vim-fugitive")
 	use("tpope/vim-rhubarb")
 	use("lewis6991/gitsigns.nvim")
+	use("sindrets/diffview.nvim")
 
 	-- vim save sessions
 	use("tpope/vim-obsession")
@@ -267,10 +269,32 @@ vim.keymap.set("i", "\t", function()
 	return vim.fn["codeium#Accept"]()
 end, { expr = true })
 
+vim.keymap.set("n", "<leader>tc", function()
+	return vim.fn["codeium#CodeiumToggle"]()
+end)
+
 vim.g.codeium_filetypes = {
+	lua = true,
 	markdown = false,
 	json = false,
+	rust = false,
+	python = true,
+	javascript = true,
 }
+
+-- copilot configuration
+vim.g.copilot_enabled = false
+-- vim.g.copilot_filetypes = {
+-- 	markdown = false,
+-- 	json = true,
+-- 	rust = false,
+--   lua = true,
+--   python = true,
+-- }
+-- vim.g.copilot_assume_mapped = true
+-- vim.keymap.set("i", "\t", function()
+-- 	return vim.fn["copilot#Accept"]()
+-- end, { expr = true })
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`

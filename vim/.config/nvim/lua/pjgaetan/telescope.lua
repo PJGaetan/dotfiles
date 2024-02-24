@@ -41,10 +41,10 @@ vim.keymap.set("n", "<leader>sf", function()
 	return require("telescope.builtin").find_files({ hidden = false })
 end, { desc = "[S]earch [F]iles" })
 vim.keymap.set("n", "<leader>ff", function()
-	return require("telescope.builtin").find_files(require("telescope.themes").get_ivy({
-	}))
-end )
+	return require("telescope.builtin").find_files(require("telescope.themes").get_ivy({}))
+end)
 vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
+vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch [W]ord" })
 vim.keymap.set("n", "<leader>sd", "<cmd>Telescope dir live_grep<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>/", function()
 	-- You can pass additional configuration to telescope to change theme, layout, etc.

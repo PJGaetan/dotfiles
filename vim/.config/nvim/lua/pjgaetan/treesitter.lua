@@ -17,6 +17,7 @@ require("nvim-treesitter.configs").setup({
 		"markdown_inline",
 		"json",
 	},
+	disable = { "txt" }, -- list of language that will be disabled
 
 	highlight = {
 		enable = true,

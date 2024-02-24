@@ -84,5 +84,6 @@
     "!Split sequence"
   ],
   "snyk.yesWelcomeNotification": false,
-  "aws.samcli.location": "/usr/local/bin/sam"
+  "aws.samcli.location": "/usr/local/bin/sam",
+  "git.openRepositoryInParentFolders": "never"
 }
