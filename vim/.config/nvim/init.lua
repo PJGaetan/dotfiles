@@ -1,23 +1,36 @@
--- Install packer
-local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-local is_bootstrap = false
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-	is_bootstrap = true
-	vim.fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-	vim.cmd([[packadd packer.nvim]])
+-- Install lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
 end
+vim.opt.rtp:prepend(lazypath)
+--
+-- [[ Basic Keymaps ]]
+-- Set <space> as the leader key
+-- See `:help mapleader`
+--  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+-- Make sure to set `mapleader` before lazy so your mappings are correct
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
-require("packer").startup(function(use)
+require("lazy").setup({
 	-- Package manager
-	use("wbthomason/packer.nvim")
+	"wbthomason/packer.nvim",
 	--
 	-- Useful status updates for LSP
-	use({ "j-hui/fidget.nvim", tag = "legacy" })
+	{ "j-hui/fidget.nvim", version = "legacy" },
 
-	use({
+	{
 		-- LSP Configuration & Plugins
 		"neovim/nvim-lspconfig",
-		requires = {
+		dependencies = {
 			-- Automatically install LSPs to stdpath for neovim
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
@@ -25,161 +38,157 @@ require("packer").startup(function(use)
 			-- Additional lua configuration, makes nvim stuff amazing
 			"folke/neodev.nvim",
 		},
-	})
+	},
 
-	use({
+	{
 		-- Autocompletion
 		"hrsh7th/nvim-cmp",
-		requires = { "hrsh7th/cmp-nvim-lsp", "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip" },
-	})
+		dependencies = { "hrsh7th/cmp-nvim-lsp", "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip" },
+	},
 
-	use({
+	{
 		-- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
-		run = function()
-			pcall(require("nvim-treesitter.install").update({ with_sync = true }))
-		end,
-	})
-	use("vrischmann/tree-sitter-templ")
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter-textobjects",
+		},
+		build = ":TSUpdate",
+	},
+	"vrischmann/tree-sitter-templ",
 
-	use({
+	{
 		-- Additional text objects via treesitter
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		after = "nvim-treesitter",
-	})
+	},
 
-	use("dhruvasagar/vim-table-mode")
+	"dhruvasagar/vim-table-mode",
 
 	-- code prediction a la copilote
-	use({ "Exafunction/codeium.vim" })
-	use({ "github/copilot.vim" })
+	{ "Exafunction/codeium.vim" },
 
 	-- null-ls for formatting
-	use({ "nvimtools/none-ls.nvim" })
+	{ "nvimtools/none-ls.nvim" },
 
 	-- send cmd from vim to tmux
-	use({ "preservim/vimux" })
+	{ "preservim/vimux" },
 
 	-- install without yarn or npm
 	-- mardown open in split browser
-	use({
+	{
 		"iamcco/markdown-preview.nvim",
 		run = function()
 			vim.fn["mkdp#util#install"]()
 		end,
-	})
+	},
 
-	use("itchyny/calendar.vim")
-	use("epwalsh/obsidian.nvim")
-	use("MunifTanjim/nui.nvim")
+	"itchyny/calendar.vim",
+	"epwalsh/obsidian.nvim",
+	"MunifTanjim/nui.nvim",
 
 	-- dap nvim
-	use("mfussenegger/nvim-dap")
-	use("leoluz/nvim-dap-go")
-	use("rcarriga/nvim-dap-ui")
+	"mfussenegger/nvim-dap",
+	"leoluz/nvim-dap-go",
+	"rcarriga/nvim-dap-ui",
 
 	-- Git related plugins
-	use("tpope/vim-fugitive")
-	use("tpope/vim-rhubarb")
-	use("lewis6991/gitsigns.nvim")
-	use("sindrets/diffview.nvim")
+	"tpope/vim-fugitive",
+	"tpope/vim-rhubarb",
+	"lewis6991/gitsigns.nvim",
 
 	-- vim save sessions
-	use("tpope/vim-obsession")
+	"tpope/vim-obsession",
 
-	use("Mofiqul/dracula.nvim") -- Draculq theme
-	use("nvim-lualine/lualine.nvim") -- Fancier statusline
-	use("lukas-reineke/indent-blankline.nvim") -- Add indentation guides even on blank lines
-	use("numToStr/Comment.nvim") -- "gc" to comment visual regions/lines
-	use("tpope/vim-sleuth") -- Detect tabstop and shiftwidth automatically
-	use("tpope/vim-unimpaired") -- Detect tabstop and shiftwidth automatically
+	{ "Mofiqul/dracula.nvim", lazy = false },
+	"nvim-lualine/lualine.nvim",
+	-- Add indentation guides even on blank lines
+	"lukas-reineke/indent-blankline.nvim",
+	-- "gc" to comment visual regions/lines
+	"numToStr/Comment.nvim",
+	-- Detect tabstop and shiftwidth automatically
+	"tpope/vim-sleuth",
+	"tpope/vim-unimpaired",
 
 	-- Fuzzy Finder (files, lsp, etc)
-	use({ "nvim-telescope/telescope.nvim", branch = "0.1.x", requires = { "nvim-lua/plenary.nvim" } })
+	{ "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
 
-	-- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
-	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make", cond = vim.fn.executable("make") == 1 })
+	-- Fuzzy Finder Algorithm which dependencies local dependencies to be built. Only load if `make` is available
+	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make", cond = vim.fn.executable("make") == 1 },
 
 	-- Icone in file browser
-	use("nvim-tree/nvim-web-devicons")
-	use("stevearc/oil.nvim")
+	"nvim-tree/nvim-web-devicons",
+	"stevearc/oil.nvim",
 
 	-- dbt nvim
-	use({ "PedramNavid/dbtpal", requires = { { "nvim-lua/plenary.nvim" }, { "nvim-telescope/telescope.nvim" } } })
+	{
+		"PedramNavid/dbtpal",
+		dependencies = { { "nvim-lua/plenary.nvim" }, { "nvim-telescope/telescope.nvim" } },
+	},
 
 	-- vim tmux
 	-- use { 'alexghergh/nvim-tmux-navigation' }
-	use({ "mrjones2014/smart-splits.nvim" })
+	{ "mrjones2014/smart-splits.nvim" },
 
 	-- vim git workfile
-	use({ "cljoly/telescope-repo.nvim" })
-	use({ "airblade/vim-rooter" })
-	use({ "ThePrimeagen/git-worktree.nvim" })
+	{ "cljoly/telescope-repo.nvim" },
+	{ "airblade/vim-rooter" },
+	{ "ThePrimeagen/git-worktree.nvim" },
 
 	-- harpoon
-	use({
+	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
-		requires = { { "nvim-lua/plenary.nvim" } },
-	})
+		dependencies = { { "nvim-lua/plenary.nvim" } },
+	},
 
 	-- vim wiki
-	use({ "lervag/wiki.vim" })
-	use({ "lervag/wiki-ft.vim" })
-	use({ "opdavies/toggle-checkbox.nvim" })
-
-	use({ "startup-nvim/startup.nvim", requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" } })
+	{ "lervag/wiki.vim" },
+	{ "lervag/wiki-ft.vim" },
+	{ "opdavies/toggle-checkbox.nvim" },
+	{ "startup-nvim/startup.nvim", dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" } },
 
 	-- gitmoji
-	use({ "olacin/telescope-gitmoji.nvim" })
-	use("Kachyz/vim-gitmoji")
+	{ "olacin/telescope-gitmoji.nvim" },
+	"Kachyz/vim-gitmoji",
 
-	use({ "princejoogie/dir-telescope.nvim" })
-	use({ "https://codeberg.org/esensar/nvim-dev-container" })
+	{ "princejoogie/dir-telescope.nvim" },
+	{ "https://codeberg.org/esensar/nvim-dev-container" },
 
 	-- context above functions
-	use({ "nvim-treesitter/nvim-treesitter-context" })
+	{ "nvim-treesitter/nvim-treesitter-context" },
 
 	-- <leader>z for full screen
-	use({ "troydm/zoomwintab.vim" })
+	{ "troydm/zoomwintab.vim" },
 
 	-- allow number when wnidws not in focus
-	use({ "jeffkreeftmeijer/vim-numbertoggle" })
-
-	-- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
-	local has_plugins, plugins = pcall(require, "custom.plugins")
-	if has_plugins then
-		plugins(use)
-	end
-
-	if is_bootstrap then
-		require("packer").sync()
-	end
-end)
-
--- When we are bootstrapping a configuration, it doesn't
--- make sense to execute the rest of the init.lua.
---
--- You'll need to restart nvim, and then it will work.
-if is_bootstrap then
-	print("==================================")
-	print("    Plugins are being installed")
-	print("    Wait until Packer completes,")
-	print("       then restart nvim")
-	print("==================================")
-	return
-end
-
--- Automatically source and re-compile packer whenever you save this init.lua
-local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
-vim.api.nvim_create_autocmd("BufWritePost", {
-	command = "source <afile> | silent! LspStop | silent! LspStart | PackerCompile",
-	group = packer_group,
-	pattern = vim.fn.expand("$MYVIMRC"),
+	{ "jeffkreeftmeijer/vim-numbertoggle" },
+}, {
+	dev = {
+		---@type string | fun(plugin: LazyPlugin): string directory where you store your local plugin projects
+		path = "~/.config/nvim/lua/custom/plugins.lua",
+	},
+	install = {
+		-- try to load one of these colorschemes when starting an installation during startup
+		colorscheme = { "dracula" },
+	},
+	ui = {
+		icons = {
+			cmd = "⌘",
+			config = "🛠",
+			event = "📅",
+			ft = "📂",
+			init = "⚙",
+			keys = "🗝",
+			plugin = "🔌",
+			runtime = "💻",
+			require = "🌙",
+			source = "📄",
+			start = "🚀",
+			task = "📌",
+			lazy = "💤 ",
+		},
+	},
 })
-
--- [[ Setting options ]]
--- See `:help vim.o`
 
 -- Set highlight on search
 vim.o.hlsearch = true
@@ -217,13 +226,6 @@ vim.o.completeopt = "menuone,noselect"
 
 -- <C-X><C-U> to display emoji helper
 vim.o.completefunc = "emoji#complete"
-
--- [[ Basic Keymaps ]]
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
@@ -281,20 +283,6 @@ vim.g.codeium_filetypes = {
 	python = true,
 	javascript = true,
 }
-
--- copilot configuration
-vim.g.copilot_enabled = false
--- vim.g.copilot_filetypes = {
--- 	markdown = false,
--- 	json = true,
--- 	rust = false,
---   lua = true,
---   python = true,
--- }
--- vim.g.copilot_assume_mapped = true
--- vim.keymap.set("i", "\t", function()
--- 	return vim.fn["copilot#Accept"]()
--- end, { expr = true })
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
