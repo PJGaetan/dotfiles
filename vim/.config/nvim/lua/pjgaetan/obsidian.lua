@@ -29,6 +29,7 @@ local client = require("obsidian").setup({
 	-- Optional, completion.
 	completion = {
 		nvim_cmp = true, -- if using nvim-cmp, otherwise set to false
+		min_chars = 2,
 	},
 
 	-- Optional, customize how names/IDs for new notes are created.
@@ -73,16 +74,35 @@ local client = require("obsidian").setup({
 		-- Open the URL in the default web browser.
 		vim.fn.jobstart({ "open", url }) -- Mac OS
 	end,
+	wiki_link_func = "use_path_only",
+	picker = {
+		-- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', or 'mini.pick'.
+		name = "telescope.nvim",
+		-- Optional, configure key mappings for the picker. These are the defaults.
+		-- Not all pickers support all mappings.
+		mappings = {
+			-- Create a new note from your query.
+			new = "<C-x>",
+			-- Insert a link to the selected note.
+			insert_link = "<C-l>",
+		},
+	},
+	sort_by = "modified",
+	sort_reversed = true,
+	open_notes_in = "current",
+	ui = {
+		enable = false,
+	},
 })
 
 -- Override the 'gf' keymap to utilize Obsidian's search functionality.
-vim.keymap.set("n", "gf", function()
+local function obsidian_follow_link()
 	if require("obsidian").util.cursor_on_markdown_link() then
 		return "<cmd>ObsidianFollowLink<CR>"
 	else
 		return "gf"
 	end
-end, { noremap = false, expr = true })
+end
 
 local Input = require("nui.input")
 local event = require("nui.utils.autocmd").event
@@ -103,15 +123,8 @@ local popup_options = {
 	},
 }
 
-vim.keymap.set("n", "<leader>nd", "<cmd>ObsidianToday<CR>")
-vim.keymap.set("n", "<leader>ny", "<cmd>ObsidianYesterday<CR>")
-vim.keymap.set("n", "<leader>ng", "<cmd>ObsidianSearch<CR>")
-vim.keymap.set("n", "<leader>ns", "<cmd>ObsidianQuickSwitch<CR>")
-vim.keymap.set("n", "<leader>nl", "<cmd>ObsidianLink<CR>")
--- vim.keymap.set("n", "<leader>nt", '<cmd>ObsidianTemplate<CR>')
-vim.keymap.set("n", "<leader>no", "<cmd>ObsidianLinkNew<CR>")
-
-vim.keymap.set("n", "<leader>nc", function()
+-- Create new note
+local function obsidian_prompt_new_note()
 	local input = Input(popup_options, {
 		prompt = "> ",
 		default_value = "",
@@ -132,10 +145,9 @@ vim.keymap.set("n", "<leader>nc", function()
 	input:on(event.BufLeave, function()
 		input:unmount()
 	end)
-end)
+end
 
 -- Weekly note
-
 local function obsidian_weekly_note()
 	local today = os.time()
 	-- Sunday = 1
@@ -149,13 +161,20 @@ local function obsidian_weekly_note()
 	-- if vim.fn.isdirectory(subdir) == 0 then
 	--   vim.fn.mkdir(subdir, '')
 	-- end
-	local note = client:new_note(date, date, subdir)
-	vim.api.nvim_command("e " .. tostring(note.path))
+
+	local title, id, path = client:parse_title_id_path(date, date, subdir)
+
+	if vim.fn.filereadable(path.filename) == 0 then
+		local note = client:new_note(date, date, subdir)
+		vim.api.nvim_command("e " .. tostring(note.path))
+	end
+
+	-- local note = client:new_note(date, date, subdir)
+	vim.api.nvim_command("e " .. tostring(path.filename))
 end
 
 vim.api.nvim_create_user_command("ObsidianWeekly", obsidian_weekly_note, { nargs = 0 })
-
-vim.keymap.set("n", "<leader>nw", obsidian_weekly_note)
+--
 
 local function obsidian_previous_weekly_note()
 	local today = os.time()
@@ -175,3 +194,13 @@ local function obsidian_previous_weekly_note()
 end
 
 vim.keymap.set("n", "<leader>npw", obsidian_previous_weekly_note)
+vim.keymap.set("n", "<leader>nd", "<cmd>ObsidianToday<CR>")
+vim.keymap.set("n", "<leader>ny", "<cmd>ObsidianYesterday<CR>")
+vim.keymap.set("n", "<leader>ng", "<cmd>ObsidianSearch<CR>")
+vim.keymap.set("n", "<leader>ns", "<cmd>ObsidianQuickSwitch<CR>")
+vim.keymap.set("n", "<leader>nl", "<cmd>ObsidianLink<CR>")
+-- vim.keymap.set("n", "<leader>nt", '<cmd>ObsidianTemplate<CR>')
+vim.keymap.set("n", "<leader>no", "<cmd>ObsidianLinkNew<CR>")
+vim.keymap.set("n", "<leader>nw", obsidian_weekly_note)
+vim.keymap.set("n", "<leader>nc", obsidian_prompt_new_note)
+vim.keymap.set("n", "gf", obsidian_follow_link, { noremap = false, expr = true })

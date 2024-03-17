@@ -1,3 +1,14 @@
+local function format_on_save(client, bufnr)
+	vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+	vim.api.nvim_create_autocmd("BufWritePre", {
+		group = augroup,
+		buffer = bufnr,
+		callback = function()
+			vim.lsp.buf.format({ bufnr = bufnr })
+		end,
+	})
+end
+
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
@@ -34,7 +45,6 @@ local on_attach = function(_, bufnr)
 	-- See `:help K` for why this keymap
 	nmap("K", vim.lsp.buf.hover, "Hover Documentation")
 	nmap("˚", vim.lsp.buf.signature_help, "Signature Documentation")
-
 	-- Lesser used LSP functionality
 	nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 	nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
@@ -56,16 +66,12 @@ local servers = {
 		filetypes = { "python" },
 	},
 	["terraformls"] = {},
-	-- tsserver = {},
-	-- efm = {
-	--     --lintDebounce = 100,
-	--     languages = languages,
-	--     rootMarkers = { '.git/' },
-	-- },
 	gopls = {},
 	cssls = {},
 	tsserver = {},
 	["templ"] = {},
+	svelte = {},
+	tailwindcss = {},
 	lua_ls = {
 		Lua = {
 			workspace = { checkThirdParty = false },

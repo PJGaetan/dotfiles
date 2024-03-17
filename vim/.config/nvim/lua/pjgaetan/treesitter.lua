@@ -10,18 +10,24 @@ require("nvim-treesitter.configs").setup({
 		"python",
 		"rust",
 		"typescript",
-		"help",
-		"vim",
 		"terraform",
 		"markdown",
 		"markdown_inline",
 		"json",
+		"svelte",
+		"css",
+		"html",
+		"javascript",
+		"sql",
+		"vimdoc",
 	},
-	disable = { "txt" }, -- list of language that will be disabled
+	-- If error, use this cmd and ensure only the treesitter one is used
+	-- echo nvim_get_runtime_file('parser', v:true)
 
 	highlight = {
 		enable = true,
 		additional_vim_regex_highlighting = { "markdown" },
+		disable = { "txt" }, -- list of language that will be disabled
 	},
 	indent = { enable = true, disable = { "python" } },
 	incremental_selection = {

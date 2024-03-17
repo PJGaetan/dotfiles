@@ -1,5 +1,7 @@
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
+
+local lga_actions = require("telescope-live-grep-args.actions")
 require("telescope").setup({
 	defaults = {
 		file_ignore_patterns = { "vendor", "env", "node_modules" },
@@ -7,10 +9,13 @@ require("telescope").setup({
 		layout_config = { width = 0.8, height = 0.95, preview_cutoff = 0 },
 	},
 	extensions = {
-		repo = {
-			list = {
-				search_dirs = {
-					"~/git",
+		live_grep_args = {
+			auto_quoting = true, -- enable/disable auto-quoting
+			-- define mappings, e.g.
+			mappings = { -- extend mappings
+				i = {
+					["<C-k>"] = lga_actions.quote_prompt(),
+					["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
 				},
 			},
 		},
@@ -19,48 +24,94 @@ require("telescope").setup({
 
 -- Enable telescope fzf native, if installed
 pcall(require("telescope").load_extension, "fzf")
--- extension  repo
-require("telescope").load_extension("repo")
-vim.keymap.set("n", "<leader>l", require("telescope").extensions.repo.list)
 
 -- gitmoji
 vim.keymap.set("i", "<c-g><c-i>", function()
 	require("telescope.builtin.").symbols(require("telescope.themes").get_cursor({}))
 end)
 
--- select dir then grep inside dir in Telescope
+-- Grep in Dir
 require("dir-telescope").setup({
 	hidden = true,
 	no_ignore = false,
 	show_preview = true,
 })
 require("telescope").load_extension("dir")
+vim.keymap.set("n", "<leader>sd", "<cmd>Telescope dir live_grep<CR>", { noremap = true, silent = true })
+
+--
+vim.keymap.set("n", "<leader>si", function()
+	require("telescope.builtin").find_files({
+		attach_mappings = function(_, map)
+			map("i", "asdf", function(_prompt_bufnr)
+				print("You typed asdf")
+			end)
+
+			map({ "i", "n" }, "<C-r>", function(_prompt_bufnr)
+				print("You typed <C-r>")
+			end)
+
+			-- needs to return true if you want to map default_mappings and
+			-- false if not
+			return true
+		end,
+	})
+end, { desc = "[S]earch [I]inside" })
 
 -- See `:help telescope.builtin`
 vim.keymap.set("n", "<leader>sf", function()
 	return require("telescope.builtin").find_files({ hidden = false })
 end, { desc = "[S]earch [F]iles" })
+
 vim.keymap.set("n", "<leader>ff", function()
 	return require("telescope.builtin").find_files(require("telescope.themes").get_ivy({}))
 end)
-vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
+vim.keymap.set(
+	"n",
+	"<leader>sg",
+	":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
+	{ desc = "[S]earch by [G]rep" }
+)
 vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch [W]ord" })
-vim.keymap.set("n", "<leader>sd", "<cmd>Telescope dir live_grep<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader>/", function()
-	-- You can pass additional configuration to telescope to change theme, layout, etc.
-	require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-		winblend = 10,
-		previewer = false,
-	}))
-end, { desc = "[/] Fuzzily search in current buffer]" })
 
 vim.keymap.set("n", "<leader>sdo", function()
 	return require("telescope.builtin").find_files({ hidden = true, cwd = "~/dotfiles" })
 end, { desc = "[S]earch [DO]tfiles" })
+vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
 
-vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
+-- Telescope live_grep in git root
+-- Function to find the git root directory based on the current buffer's path
+local function find_git_root()
+	-- Use the current buffer's path as the starting point for the git search
+	local current_file = vim.api.nvim_buf_get_name(0)
+	local current_dir
+	local cwd = vim.fn.getcwd()
+	-- If the buffer is not associated with a file, return nil
+	if current_file == "" then
+		current_dir = cwd
+	else
+		-- Extract the directory from the current file's path
+		current_dir = vim.fn.fnamemodify(current_file, ":h")
+	end
 
--- vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
--- vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "[S]earch current [W]ord" })
--- vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
--- vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
+	-- Find the Git root directory from the current file's path
+	local git_root = vim.fn.systemlist("git -C " .. vim.fn.escape(current_dir, " ") .. " rev-parse --show-toplevel")[1]
+	if vim.v.shell_error ~= 0 then
+		print("Not a git repository. Searching on current working directory")
+		return cwd
+	end
+	return git_root
+end
+
+-- Custom live_grep function to search in git root
+local function live_grep_git_root()
+	local git_root = find_git_root()
+	if git_root then
+		require("telescope.builtin").live_grep({
+			search_dirs = { git_root },
+		})
+	end
+end
+
+vim.api.nvim_create_user_command("LiveGrepGitRoot", live_grep_git_root, {})
+vim.keymap.set("n", "<leader>sG", ":LiveGrepGitRoot<cr>", { desc = "[S]earch by [G]rep on Git Root" })

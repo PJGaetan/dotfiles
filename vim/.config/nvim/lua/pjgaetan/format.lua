@@ -14,9 +14,6 @@ require("null-ls").setup({
 			filetypes = { "lua", "markdown", "hcl" },
 		}),
 		null_ls.builtins.diagnostics.golangci_lint,
-		null_ls.builtins.formatting.rustfmt.with({
-			filetypes = { "rust" },
-		}),
 		null_ls.builtins.formatting.prettier.with({
 			filetypes = {
 				"javascript",
@@ -30,6 +27,7 @@ require("null-ls").setup({
 				-- "graphql",
 				-- "md",
 				"txt",
+				"svelte",
 			},
 		}),
 		null_ls.builtins.formatting.sqlfluff.with({
@@ -44,9 +42,6 @@ require("null-ls").setup({
 			extra_args = { "-l", "120" },
 		}),
 		null_ls.builtins.formatting.gofumpt,
-		null_ls.builtins.diagnostics.shellcheck.with({
-			diagnostics_format = "#{m} [#{c}]",
-		}),
 	},
 	on_attach = function(client, bufnr)
 		if client.supports_method("textDocument/formatting") then
