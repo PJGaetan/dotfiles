@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Path to your oh-my-zsh installation.
 export ZSH=~/dotfiles/zsh
 
@@ -144,3 +151,15 @@ if [ -f '/Users/gaetan.pierrejustin/Downloads/google-cloud-sdk/completion.zsh.in
 
 # Turso
 export PATH="/Users/gaetan.pierrejustin/.turso:$PATH"
+
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/gaetan.pierrejustin/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+alias conductor="/Users/gaetan.pierrejustin/conductor/bin/conductor"
+
+# Vitool
+export PATH="/Users/gaetan.pierrejustin/git/priv/ve-tool/vitool:$PATH"
+
+eval "$(gh copilot alias -- zsh)"

@@ -31,13 +31,13 @@ vim.keymap.set("i", "<c-g><c-i>", function()
 end)
 
 -- Grep in Dir
-require("dir-telescope").setup({
-	hidden = true,
-	no_ignore = false,
-	show_preview = true,
-})
-require("telescope").load_extension("dir")
-vim.keymap.set("n", "<leader>sd", "<cmd>Telescope dir live_grep<CR>", { noremap = true, silent = true })
+-- require("dir-telescope").setup({
+-- 	hidden = true,
+-- 	no_ignore = false,
+-- 	show_preview = true,
+-- })
+-- require("telescope").load_extension("dir")
+-- vim.keymap.set("n", "<leader>sd", "<cmd>Telescope dir live_grep<CR>", { noremap = true, silent = true })
 
 --
 vim.keymap.set("n", "<leader>si", function()
@@ -115,3 +115,9 @@ end
 
 vim.api.nvim_create_user_command("LiveGrepGitRoot", live_grep_git_root, {})
 vim.keymap.set("n", "<leader>sG", ":LiveGrepGitRoot<cr>", { desc = "[S]earch by [G]rep on Git Root" })
+vim.keymap.set(
+	"n",
+	"<leader>sd",
+	require("telescope.builtin").lsp_document_symbols,
+	{ desc = "[S]earch [D]ocument Symbols" }
+)
