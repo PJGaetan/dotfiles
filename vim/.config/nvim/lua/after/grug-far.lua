@@ -1,0 +1,1 @@
+-- vim.keymap.set("n", "<leader>sr", "<cmd>bd<CR>", { desc = "Leave Grug-Far", buffer = 0 })

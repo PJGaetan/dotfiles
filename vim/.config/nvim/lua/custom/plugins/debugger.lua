@@ -10,6 +10,14 @@ return {
 			"williamboman/mason.nvim",
 			"mfussenegger/nvim-dap-python",
 		},
+		lazy = true,
+		keys = {
+			"<leader>dm",
+			"<leader>b",
+			"<leader>db",
+			"<leader>dt",
+			"<leader>dc",
+		},
 		config = function()
 			-- configure dap
 			local dap = require("dap")
@@ -39,7 +47,7 @@ return {
 				dap.toggle_breakpoint()
 			end)
 
-			vim.keymap.set("n", "<leader>gb", function()
+			vim.keymap.set("n", "<leader>db", function()
 				dap.run_to_cursor()
 			end)
 

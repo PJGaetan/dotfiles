@@ -5,5 +5,8 @@ return {
 		config = function()
 			require("pjgaetan.format")
 		end,
+		dependencies = {
+			"nvimtools/none-ls-extras.nvim",
+		},
 	},
 }

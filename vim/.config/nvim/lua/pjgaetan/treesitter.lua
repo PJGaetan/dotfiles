@@ -19,11 +19,13 @@ M.setup = function()
 			"svelte",
 			"css",
 			"html",
+			"http",
 			"javascript",
 			"sql",
 			"vimdoc",
 			"toml",
 			"templ",
+			"yaml",
 		},
 		-- If error, use this cmd and ensure only the treesitter one is used
 		-- echo nvim_get_runtime_file('parser', v:true)
@@ -96,6 +98,15 @@ M.setup = function()
 			files = { "src/parser.c", "src/scanner.c" },
 			branch = "master",
 		},
+	}
+
+	treesitter_parser_config.gotmpl = {
+		install_info = {
+			url = "https://github.com/ngalaiko/tree-sitter-go-template",
+			files = { "src/parser.c" },
+		},
+		filetype = "gotmpl",
+		used_by = { "gohtmltmpl", "gotexttmpl", "gotmpl", "yaml" },
 	}
 
 	vim.treesitter.language.register("templ", "templ")

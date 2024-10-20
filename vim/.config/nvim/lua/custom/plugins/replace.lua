@@ -7,9 +7,13 @@ return {
 			maxSearchCharsInTitles = 0,
 			icons = {
 				-- whether to show icons
-				enabled = false,
+				enabled = true,
 			},
 		})
 		vim.keymap.set("n", "<leader>sr", "<cmd>GrugFar<CR>", { desc = "Replace word under cursor" })
 	end,
+	lazy = true,
+	cmd = {
+		"GrugFar",
+	},
 }

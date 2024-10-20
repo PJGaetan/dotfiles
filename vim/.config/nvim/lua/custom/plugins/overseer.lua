@@ -5,5 +5,6 @@ return {
 		vim.keymap.set("n", "<leader>or", "<cmd>OverseerRun<CR>")
 		vim.keymap.set("n", "<leader>ot", "<cmd>OverseerToggle<CR>")
 	end,
+	lazy = true,
 	cmd = { "OverseerRun", "OverseerToggle" },
 }

@@ -63,6 +63,10 @@ vim.keymap.set("n", "<leader>sf", function()
 	return require("telescope.builtin").find_files({ hidden = false })
 end, { desc = "[S]earch [F]iles" })
 
+vim.keymap.set("n", "<leader>/", function()
+	return require("telescope.builtin").live_grep({ search_dirs = { vim.fn.expand("%") } })
+end, { desc = "[S]earch [F]iles" })
+
 vim.keymap.set("n", "<leader>ff", function()
 	return require("telescope.builtin").find_files(require("telescope.themes").get_ivy({}))
 end)
@@ -121,3 +125,7 @@ vim.keymap.set(
 	require("telescope.builtin").lsp_document_symbols,
 	{ desc = "[S]earch [D]ocument Symbols" }
 )
+
+vim.keymap.set("n", "<leader>sF", function()
+	require("telescope.builtin").lsp_document_symbols({ symbols = { "Function", "Method" } })
+end, { desc = "[S]earch [D]ocument Symbols" })

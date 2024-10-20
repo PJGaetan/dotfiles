@@ -1,16 +1,9 @@
 -- Setup neovim lua configuration
-require("neodev").setup()
 
-local function format_on_save(client, bufnr)
-	vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-	vim.api.nvim_create_autocmd("BufWritePre", {
-		group = augroup,
-		buffer = bufnr,
-		callback = function()
-			vim.lsp.buf.format({ bufnr = bufnr })
-		end,
-	})
-end
+-- local spell_words = {}
+-- for word in io.open(vim.fn.stdpath("config") .. "/spell/en.utf-8.add", "r"):lines() do
+--     table.insert(spell_words, word)
+-- end
 
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
@@ -65,9 +58,8 @@ end
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
-	pyright = {
-		filetypes = { "python" },
-	},
+	bashls = {},
+	pyright = {},
 	["terraformls"] = {},
 	gopls = {},
 	cssls = {},
@@ -82,6 +74,13 @@ local servers = {
 		},
 	},
 	["rust_analyzer"] = {},
+	ltex = {},
+}
+
+local filetypes = {
+	pyright = { "python" },
+	-- ltex = { "markdown", "latex", "pandoc" },
+	ltex = { "latex" },
 }
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -103,7 +102,7 @@ mason_lspconfig.setup_handlers({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			settings = servers[server_name],
-			-- filetypes = filetypes[server_name],
+			filetypes = filetypes[server_name],
 			-- init_options = init_options[server_name],
 		})
 	end,
@@ -131,3 +130,17 @@ local templ_format = function()
 	})
 end
 vim.api.nvim_create_autocmd({ "BufWritePre" }, { pattern = { "*.templ" }, callback = templ_format })
+
+require("ltex_extra").setup({
+	server_opts = {
+		capabilities = capabilities,
+		on_attach = function(client, bufnr)
+			-- your on_attach process
+		end,
+		settings = {
+			ltex = servers["ltex"],
+		},
+		filetypes = filetypes["ltex"],
+		-- init_options = init_options["ltex"],
+	},
+})

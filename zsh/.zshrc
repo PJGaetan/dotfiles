@@ -153,13 +153,12 @@ if [ -f '/Users/gaetan.pierrejustin/Downloads/google-cloud-sdk/completion.zsh.in
 export PATH="/Users/gaetan.pierrejustin/.turso:$PATH"
 
 
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/gaetan.pierrejustin/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
-
 alias conductor="/Users/gaetan.pierrejustin/conductor/bin/conductor"
 
 # Vitool
 export PATH="/Users/gaetan.pierrejustin/git/priv/ve-tool/vitool:$PATH"
 
 eval "$(gh copilot alias -- zsh)"
+
+# sst
+export PATH=/Users/gaetan.pierrejustin/.sst/bin:$PATH

@@ -1,6 +1,32 @@
 return {
 	{
 		"epwalsh/obsidian.nvim",
+		lazy = true,
+		cmd = {
+			"ObsidianToday",
+			"ObsidianYesterday",
+			"ObsidianSearch",
+			"ObsidianQuickSwitch",
+			"ObsidianLink",
+			"ObsidianLinkNew",
+			"ObsidianTemplate",
+			"ObsidianFollowLink",
+			"ObsidianWeekly",
+			"ObsidianNew",
+		},
+		keys = {
+			"<leader>npw",
+			"<leader>nd",
+			"<leader>ny",
+			"<leader>ng",
+			"<leader>ns",
+			"<leader>nl",
+			"<leader>nt",
+			"<leader>no",
+			"<leader>nw",
+			"<leader>nc",
+			"gf",
+		},
 		config = function()
 			require("pjgaetan.obsidian")
 		end,

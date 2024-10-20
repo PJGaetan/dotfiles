@@ -14,10 +14,14 @@ require("null-ls").setup({
 			filetypes = { "lua", "markdown", "hcl" },
 		}),
 		null_ls.builtins.diagnostics.golangci_lint,
+		null_ls.builtins.formatting.shfmt,
+		require("none-ls.diagnostics.eslint"), -- requires none-ls-extras.nvim
 		null_ls.builtins.formatting.prettier.with({
 			filetypes = {
 				"javascript",
 				"typescript",
+				"javascriptreact",
+				"typescriptreact",
 				"css",
 				"scss",
 				"html",

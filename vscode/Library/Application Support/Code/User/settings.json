@@ -6,7 +6,7 @@
   ],
   "editor.suggestSelection": "first",
   "workbench.iconTheme": "eq-material-theme-icons-palenight",
-  "workbench.colorTheme": "Dracula",
+  "workbench.colorTheme": "Dracula Theme",
   "terminal.integrated.shell.osx": "/bin/zsh",
   "vs-kubernetes": {
     "vs-kubernetes.minikube-path.mac": "/Users/GaetanPJ/.vs-kubernetes/tools/minikube/darwin-amd64/minikube",
@@ -85,5 +85,9 @@
   ],
   "snyk.yesWelcomeNotification": false,
   "aws.samcli.location": "/usr/local/bin/sam",
-  "git.openRepositoryInParentFolders": "never"
+  "git.openRepositoryInParentFolders": "never",
+  "remote.autoForwardPortsSource": "hybrid",
+  "python.defaultInterpreterPath": "/Users/gaetan.pierrejustin/Library/Caches/pypoetry/virtualenvs/what-if-tool-Maw3mceG-py3.10",
+  "github.copilot.editor.enableAutoCompletions": true,
+  "snowflake.connectionsConfigFile": "/Users/gaetan.pierrejustin/.snowflake/connections.toml"
 }
