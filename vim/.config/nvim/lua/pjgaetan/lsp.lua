@@ -59,7 +59,14 @@ end
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
 	bashls = {},
-	pyright = {},
+	pylsp = {
+		plugins = {
+			pycodestyle = {
+				ignore = { "W391", "E501" },
+				maxLineLength = 120,
+			},
+		},
+	},
 	["terraformls"] = {},
 	gopls = {},
 	cssls = {},
@@ -74,13 +81,13 @@ local servers = {
 		},
 	},
 	["rust_analyzer"] = {},
-	ltex = {},
+	-- ltex = {},
 }
 
 local filetypes = {
-	pyright = { "python" },
+	pylsp = { "python" },
 	-- ltex = { "markdown", "latex", "pandoc" },
-	ltex = { "latex" },
+	-- ltex = { "latex" },
 }
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()

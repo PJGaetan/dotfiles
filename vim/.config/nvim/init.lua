@@ -43,6 +43,21 @@ require("lazy").setup({
 	-- lookmlw
 	{ "chrismaher/vim-lookml" },
 
+	--django
+	{ "tweekmonster/django-plus.vim" },
+
+	-- quickfix
+	{
+		"stevearc/quicker.nvim",
+		event = "FileType qf",
+		---@module "quicker"
+		---@type quicker.SetupOptions
+		opts = {},
+		config = function(_, opts)
+			require("quicker").setup(opts)
+		end,
+	},
+
 	-- startuptime
 	{ "dstein64/vim-startuptime" },
 

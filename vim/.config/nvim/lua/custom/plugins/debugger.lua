@@ -29,12 +29,35 @@ return {
 			dap_python.test_runner = "pytest"
 
 			require("dap-python").resolve_python = function()
+				local cwd = vim.fn.getcwd()
+
 				if vim.fn.executable("poetry") == 1 then
 					local path = vim.cmd("poetry env info --path")
 					return path
 				end
-				return "env/bin/python"
+
+				if vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
+					return cwd .. "/venv/bin/python"
+				elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
+					return cwd .. "/.venv/bin/python"
+				elseif vim.fn.executable(cwd .. "/env/bin/python") == 1 then
+					return cwd .. "/env/bin/python"
+				else
+					return "/usr/bin/python"
+				end
 			end
+
+			-- insert django config
+			table.insert(dap.configurations.python, {
+				type = "debugpy",
+				request = "launch",
+				name = "Django",
+				program = "${workspaceFolder}/manage.py",
+				args = { "runserver" },
+				justMyCode = true,
+				django = true,
+				console = "integratedTerminal",
+			})
 
 			vim.keymap.set("n", "<leader>dm", function()
 				require("dap-python").test_method()

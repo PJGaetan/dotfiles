@@ -26,6 +26,7 @@ M.setup = function()
 			"toml",
 			"templ",
 			"yaml",
+			"htmldjango",
 		},
 		-- If error, use this cmd and ensure only the treesitter one is used
 		-- echo nvim_get_runtime_file('parser', v:true)
