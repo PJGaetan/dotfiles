@@ -70,7 +70,7 @@ local servers = {
 	["terraformls"] = {},
 	gopls = {},
 	cssls = {},
-	tsserver = {},
+	-- tsserver = {},
 	["templ"] = {},
 	svelte = {},
 	tailwindcss = {},
@@ -90,8 +90,8 @@ local filetypes = {
 	-- ltex = { "latex" },
 }
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- Setup mason so it can manage external tooling
 require("mason").setup()
@@ -138,16 +138,16 @@ local templ_format = function()
 end
 vim.api.nvim_create_autocmd({ "BufWritePre" }, { pattern = { "*.templ" }, callback = templ_format })
 
-require("ltex_extra").setup({
-	server_opts = {
-		capabilities = capabilities,
-		on_attach = function(client, bufnr)
-			-- your on_attach process
-		end,
-		settings = {
-			ltex = servers["ltex"],
-		},
-		filetypes = filetypes["ltex"],
-		-- init_options = init_options["ltex"],
-	},
-})
+-- require("ltex_extra").setup({
+-- 	server_opts = {
+-- 		capabilities = capabilities,
+-- 		on_attach = function(client, bufnr)
+-- 			-- your on_attach process
+-- 		end,
+-- 		settings = {
+-- 			ltex = servers["ltex"],
+-- 		},
+-- 		filetypes = filetypes["ltex"],
+-- 		-- init_options = init_options["ltex"],
+-- 	},
+-- })

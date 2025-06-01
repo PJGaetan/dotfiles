@@ -35,7 +35,8 @@ require("null-ls").setup({
 			},
 		}),
 		null_ls.builtins.formatting.sqlfluff.with({
-			extra_args = { "--dialect", "snowflake" }, -- change to your dialect
+			extra_args = { "--dialect", "snowflake", "--templater", "jinja" }, -- change to your dialect
+			-- extra_args = { "--config", "~/git/data-foundations/.sqlfluff" }, -- change to your dialect
 			filetypes = { "sql", "dbt" },
 		}),
 

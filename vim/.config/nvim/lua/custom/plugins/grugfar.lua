@@ -16,4 +16,5 @@ return {
 	cmd = {
 		"GrugFar",
 	},
+	ft = { "oil" },
 }

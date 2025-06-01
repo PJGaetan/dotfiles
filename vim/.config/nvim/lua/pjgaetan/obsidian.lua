@@ -31,6 +31,7 @@ local client = require("obsidian").setup({
 		nvim_cmp = true, -- if using nvim-cmp, otherwise set to false
 		min_chars = 2,
 	},
+	acknowledge_conflicts = true,
 
 	-- Optional, customize how names/IDs for new notes are created.
 	note_id_func = function(title)

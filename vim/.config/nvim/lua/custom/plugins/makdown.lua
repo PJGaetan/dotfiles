@@ -19,5 +19,6 @@ return {
 				},
 			})
 		end,
+		ft = { "markdown", "mdx" },
 	},
 }

@@ -111,6 +111,7 @@ M.setup = function()
 	}
 
 	vim.treesitter.language.register("templ", "templ")
+	vim.treesitter.language.register("yaml", "ymlj2")
 end
 
 M.setup()
