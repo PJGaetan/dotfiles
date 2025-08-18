@@ -87,7 +87,8 @@
   "aws.samcli.location": "/usr/local/bin/sam",
   "git.openRepositoryInParentFolders": "never",
   "remote.autoForwardPortsSource": "hybrid",
-  "python.defaultInterpreterPath": "/Users/gaetan.pierrejustin/Library/Caches/pypoetry/virtualenvs/what-if-tool-Maw3mceG-py3.10",
-  "github.copilot.editor.enableAutoCompletions": true,
-  "snowflake.connectionsConfigFile": "/Users/gaetan.pierrejustin/.snowflake/connections.toml"
+  "python.defaultInterpreterPath": "/Users/gaetan.pierrejustin/Library/Caches/pypoetry/virtualenvs/what-if-tool-jwpN6D9U-py3.10",
+  "snowflake.connectionsConfigFile": "/Users/gaetan.pierrejustin/.snowflake/connections.toml",
+  "github.copilot.chat.codesearch.enabled": true,
+  "github.copilot.nextEditSuggestions.enabled": true
 }
