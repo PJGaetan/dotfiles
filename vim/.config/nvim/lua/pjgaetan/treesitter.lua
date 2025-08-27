@@ -36,7 +36,7 @@ M.setup = function()
 			additional_vim_regex_highlighting = { "markdown" },
 			disable = { "txt" }, -- list of language that will be disabled
 		},
-		indent = { enable = true, disable = { "python" } },
+		indent = { enable = true, disable = { "python", "org" } },
 		incremental_selection = {
 			enable = true,
 			keymaps = {

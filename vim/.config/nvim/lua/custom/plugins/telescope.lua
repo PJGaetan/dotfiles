@@ -19,6 +19,14 @@ return {
 					return vim.fn.executable("make") == 1
 				end,
 			},
+			{
+				"nvim-orgmode/telescope-orgmode.nvim",
+				event = "VeryLazy",
+				dependencies = {
+					"nvim-orgmode/orgmode",
+					"nvim-telescope/telescope.nvim",
+				},
+			},
 		},
 		lazy = false,
 		config = function()

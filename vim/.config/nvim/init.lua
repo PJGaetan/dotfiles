@@ -77,19 +77,12 @@ require("lazy").setup({
 	},
 	{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
 
-	-- consider switching to this : https://github.com/binhtran432k/dracula.nvim?tab=readme-ov-file
-	-- borderless telescope
-	-- { "Mofiqul/dracula.nvim", lazy = false },
 	{ "binhtran432k/dracula.nvim", lazy = false },
-	-- { "cocopon/iceberg.vim", lazy = false },
 	-- Add indentation guides even on blank lines
 	"lukas-reineke/indent-blankline.nvim",
 	-- Detect tabstop and shiftwidth automatically
 	"tpope/vim-sleuth",
 	"tpope/vim-unimpaired",
-
-	-- vim git workfile
-	-- { "airblade/vim-rooter" },
 
 	-- <leader>z for full screen
 	{ "troydm/zoomwintab.vim" },
@@ -264,19 +257,6 @@ vim.keymap.set("n", "<leader>Y", '"+Y')
 vim.api.nvim_create_user_command("Browse", function(opts)
 	vim.fn.system({ "open", opts.fargs[1] })
 end, { nargs = 1 })
-
--- calendar config
--- vim.g.calendar_google_calendar = 1
--- vim.g.calendar_google_task = 1
--- vim.cmd("source ~/.cache/calendar.vim/credentials.vim")
--- vim.keymap.set(
---   "n",
---   "<leader>cl",
---   '<cmd>Calendar -first_day=monday -view=week -date_endian=big -date_separator="-"<CR> '
--- )
---
--- Only cd current buffer instead of the whole editor
--- vim.g.rooter_cd_cmd = "lcd"
 
 vim.keymap.set("n", "<leader>z", "<cmd>ZoomWinTabToggle<CR>")
 

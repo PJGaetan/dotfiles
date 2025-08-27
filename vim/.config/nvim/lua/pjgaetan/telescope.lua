@@ -99,7 +99,8 @@ local function find_git_root()
 	end
 
 	-- Find the Git root directory from the current file's path
-	local git_root = vim.fn.systemlist("git -C " .. vim.fn.escape(current_dir, " ") .. " rev-parse --show-toplevel")[1]
+	local git_root = vim.fn.systemlist("git -C " .. vim.fn.escape(current_dir, " ") .. " rev-parse --show-toplevel")
+	[1]
 	if vim.v.shell_error ~= 0 then
 		print("Not a git repository. Searching on current working directory")
 		return cwd
@@ -129,3 +130,20 @@ vim.keymap.set(
 vim.keymap.set("n", "<leader>sF", function()
 	require("telescope.builtin").lsp_document_symbols({ symbols = { "Function", "Method" } })
 end, { desc = "[S]earch [D]ocument Symbols" })
+
+require("telescope").load_extension("orgmode")
+vim.keymap.set("n", "<leader>rh", require("telescope").extensions.orgmode.refile_heading)
+vim.keymap.set("n", "<leader>fh", require("telescope").extensions.orgmode.search_headings)
+vim.keymap.set("n", "<leader>li", require("telescope").extensions.orgmode.insert_link)
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "org",
+	group = vim.api.nvim_create_augroup("orgmode_telescope_nvim", { clear = true }),
+	callback = function()
+		vim.keymap.set(
+			"n",
+			"<leader>or",
+			require("telescope").extensions.orgmode.refile_heading,
+			{ buffer = true, desc = "[O]rgmode [R]efile Heading" }
+		)
+	end,
+})

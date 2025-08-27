@@ -41,6 +41,7 @@ cmp.setup({
 		{ name = "path" },
 		{ name = "buffer" },
 		{ name = "luasnip" },
+		{ name = "orgmode" },
 		{
 			name = "lazydev",
 			group_index = 0, -- set group index to 0 to skip loading LuaLS completions

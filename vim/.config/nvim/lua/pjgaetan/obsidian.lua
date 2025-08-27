@@ -16,7 +16,7 @@ local function zettelkasten(title)
 end
 
 local client = require("obsidian").setup({
-	dir = "~/Documents/pjg-notes", -- no need to call 'vim.fn.expand' here
+	dir = "~/Jottacloud/obsidian-notes", -- no need to call 'vim.fn.expand' here
 
 	-- Optional, if you keep notes in a specific subdirectory of your vault.
 	notes_subdir = "notes",

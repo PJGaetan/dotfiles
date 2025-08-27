@@ -36,7 +36,7 @@ return {
 		"lervag/wiki.vim",
 		config = function()
 			-- Vim wiki setup
-			vim.g.wiki_root = "~/wiki"
+			vim.g.wiki_root = "~/Jottacloud/notes/wiki"
 			vim.cmd([[
 				let g:wiki_filetypes = ['md', 'wiki']
 			]])

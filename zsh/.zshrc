@@ -14,6 +14,7 @@ source $ZSH/oh-my-zsh-config.sh
 ZSH_DOTENV_FILE=.env
 
 source $ZSH/oh-my-zsh.sh
+POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
 
 #Plugin manager
 source ~/.zplug/init.zsh
@@ -162,3 +163,40 @@ eval "$(gh copilot alias -- zsh)"
 
 # sst
 export PATH=/Users/gaetan.pierrejustin/.sst/bin:$PATH
+# BEGIN ANSIBLE MANAGED BLOCK - CUSTOM FUNCTIONS
+# Custom functions
+
+my_function2() {
+    echo "This is function 2!"
+}
+# END ANSIBLE MANAGED BLOCK - CUSTOM FUNCTIONS
+# BEGIN ANSIBLE MANAGED BLOCK - PYTHON ALIAS
+# Alias for Python tool
+# alias python="~/fomoenv/bin/python"
+function login_snowflake() {
+    source ~/.envfomo/client.env
+    echo "Logging into Snowflake..."
+    RESPONSE=$(~/fomoenv/bin/dpp --client_id $CLIENT_ID --client_secret $CLIENT_SECRET)
+    echo "export SNOWFLAKE_USER=$(echo ${RESPONSE} | jq -r '.snowflake_username')" >> ~/.envfomo/snowflake.env
+    echo "export SNOWFLAKE_USERNAME=$(echo ${RESPONSE} | jq -r '.snowflake_username')" >> ~/.envfomo/snowflake.env
+    echo "export SNOWFLAKE_PASSWORD=$(echo ${RESPONSE} | jq -r '.snowflake_password')" >> ~/.envfomo/snowflake.env
+    source ~/.envfomo/snowflake.env
+    echo "Snowflake login successful!"
+}
+
+function fomostsx() {
+    ~/fomoenv/bin/stsx
+}
+# END ANSIBLE MANAGED BLOCK - PYTHON ALIAS
+
+# Added by Windsurf
+export PATH="/Users/gaetan.pierrejustin/.codeium/windsurf/bin:$PATH"
+
+[[ -s "/Users/gaetan.pierrejustin/.gvm/scripts/gvm" ]] && source "/Users/gaetan.pierrejustin/.gvm/scripts/gvm"
+
+
+export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/gaetan.pierrejustin/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
