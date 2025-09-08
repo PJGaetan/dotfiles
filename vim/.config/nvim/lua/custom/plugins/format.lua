@@ -1,12 +1,9 @@
 return {
-	-- null-ls for formatting
 	{
-		"nvimtools/none-ls.nvim",
+		"stevearc/conform.nvim",
+		opts = {},
 		config = function()
 			require("pjgaetan.format")
 		end,
-		dependencies = {
-			"nvimtools/none-ls-extras.nvim",
-		},
 	},
 }

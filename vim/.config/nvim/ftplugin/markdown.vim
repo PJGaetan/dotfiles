@@ -1,3 +1,3 @@
 " Execute TSContextDisable
-TSContextDisable
+" TSContextDisable
 " set conceallevel=0
