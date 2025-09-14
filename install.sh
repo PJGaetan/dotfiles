@@ -13,6 +13,8 @@ stow --ignore=".DS_Store" ipython
 stow --ignore=".DS_Store" ghostty
 stow --ignore=".DS_Store" newsboat
 
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 unlink ~/.zshrc
 ln -s ~/dotfiles/zsh/.zshrc ~/.zshrc
 

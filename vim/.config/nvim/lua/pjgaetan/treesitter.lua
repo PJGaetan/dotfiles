@@ -6,7 +6,10 @@ M.setup = function()
 		-- Add languages to be installed here that you want installed for treesitter
 		ensure_installed = {
 			"c",
+			"bash",
+			-- "ledger", -- causes issues with folding
 			"cpp",
+			"zig",
 			"go",
 			"lua",
 			"python",
@@ -110,8 +113,18 @@ M.setup = function()
 		used_by = { "gohtmltmpl", "gotexttmpl", "gotmpl", "yaml" },
 	}
 
+	treesitter_parser_config.org = {
+		install_info = {
+			url = "https://https://github.com/nvim-orgmode/tree-sitter-org",
+			revision = "main",
+			files = { "src/parser.c", "src/scanner.c" },
+		},
+		filetype = "org",
+	}
+
 	vim.treesitter.language.register("templ", "templ")
 	vim.treesitter.language.register("yaml", "ymlj2")
+	vim.treesitter.language.register("org", "org")
 end
 
 M.setup()

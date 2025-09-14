@@ -17,12 +17,12 @@ source $ZSH/oh-my-zsh.sh
 POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
 
 #Plugin manager
-source ~/.zplug/init.zsh
+# source ~/.zplug/init.zsh
 
-zplug raabf/gitmoji-fuzzy-hook, \
-    from:gitlab
-GITMOJI_FUZZY_HOOK_NO_COMMENTS=false
-GITMOJI_FUZZY_HOOK_USE_CODE=true
+# zplug raabf/gitmoji-fuzzy-hook, \
+#     from:gitlab
+# GITMOJI_FUZZY_HOOK_NO_COMMENTS=false
+# GITMOJI_FUZZY_HOOK_USE_CODE=true
 
 
 # User configuration
@@ -110,16 +110,18 @@ source $FZF_DBT_PATH
 eval "$(pyenv init -)"
 
 FZF_DBT_PATH=~/.fzf-dbt/fzf-dbt.sh
-if [[ ! -f /Users/gaetan.pierrejustin/.fzf-dbt/fzf-dbt.sh ]]; then
+if [[ ! -f ~/.fzf-dbt/fzf-dbt.sh ]]; then
     FZF_DBT_DIR=/Users/gaetan.pierrejustin/.fzf-dbt
     print -P "%F{green}Installing fzf-dbt into %f"
     mkdir -p 
-    command curl -L https://raw.githubusercontent.com/Infused-Insight/fzf-dbt/main/src/fzf_dbt.sh > /Users/gaetan.pierrejustin/.fzf-dbt/fzf-dbt.sh &&         print -P "%F{green}Installation successful.%f" ||         print -P "%F{red}The download has failed.%f"
+    command curl -L https://raw.githubusercontent.com/Infused-Insight/fzf-dbt/main/src/fzf_dbt.sh > ~/.fzf-dbt/fzf-dbt.sh &&         print -P "%F{green}Installation successful.%f" ||         print -P "%F{red}The download has failed.%f"
 fi
 
 export FZF_DBT_PREVIEW_CMD="cat {}"
 export FZF_DBT_HEIGHT=80%
-source /Users/gaetan.pierrejustin/.fzf-dbt/fzf-dbt.sh
+source ~/.fzf-dbt/fzf-dbt.sh
+
+# eval "$(mise activate zsh)"
 
 export GOPATH="$HOME/go"; export GOROOT="$HOME/.go"; export PATH="$GOPATH/bin:$PATH"; # g-install: do NOT edit, see https://github.com/stefanmaric/g
 alias ggovm="$GOPATH/bin/g"; # g-install: do NOT edit, see https://github.com/stefanmaric/g
@@ -159,7 +161,8 @@ alias conductor="/Users/gaetan.pierrejustin/conductor/bin/conductor"
 # Vitool
 export PATH="/Users/gaetan.pierrejustin/git/priv/ve-tool/vitool:$PATH"
 
-eval "$(gh copilot alias -- zsh)"
+# zig
+export PATH="/usr/local/bin/zig-aarch64-macos-0.16.0-dev.233+a0ec4e270:$PATH"
 
 # sst
 export PATH=/Users/gaetan.pierrejustin/.sst/bin:$PATH

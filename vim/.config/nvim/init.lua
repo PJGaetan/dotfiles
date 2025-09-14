@@ -42,9 +42,30 @@ require("lazy").setup({
 
 	-- lookmlw
 	{ "chrismaher/vim-lookml" },
+	{
+		"ledger/vim-ledger",
+		config = function()
+			-- vim.g.ledger_folding = 1
+			-- ledger
+			vim.g.ledger_extra_options = "--pedantic --explicit --check-payees"
+			vim.g.ledger_date_format = "%Y-%m-%d"
+			vim.g.ledger_fold_blanks = 2
+			vim.g.ledger_autofmt_bufwritepre = 1
+
+			-- hldger
+			-- vim.g.ledger_extra_options = "--strict ordereddates payees uniqueleafnames"
+
+			vim.filetype.add({
+				extension = {
+					journal = "ledger",
+					ledger = "ledger",
+				},
+			})
+		end,
+	},
 
 	--django
-	{ "tweekmonster/django-plus.vim" },
+	-- { "tweekmonster/django-plus.vim" },
 
 	-- quickfix
 	{
@@ -124,6 +145,12 @@ require("lazy").setup({
 		},
 	},
 })
+
+-- TESTING lua files
+vim.keymap.set({ "n" }, "<leader>rr", function()
+	vim.cmd("luafile ~/dotfiles/vim/.config/nvim/lua/pjgaetan/sniprun.lua")
+	-- vim.cmd("RUN") -- Or vim.cmd("SnipRun") if that's the correct command
+end, { silent = false })
 
 -- Set highlight on search
 vim.o.hlsearch = true

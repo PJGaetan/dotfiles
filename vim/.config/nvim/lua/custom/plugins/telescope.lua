@@ -1,6 +1,6 @@
 return {
 	{ "olacin/telescope-gitmoji.nvim" },
-	{ "princejoogie/dir-telescope.nvim" },
+	-- { "princejoogie/dir-telescope.nvim" },
 	{
 		"nvim-telescope/telescope.nvim",
 		branch = "0.1.x",

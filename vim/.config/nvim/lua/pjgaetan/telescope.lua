@@ -99,8 +99,7 @@ local function find_git_root()
 	end
 
 	-- Find the Git root directory from the current file's path
-	local git_root = vim.fn.systemlist("git -C " .. vim.fn.escape(current_dir, " ") .. " rev-parse --show-toplevel")
-	[1]
+	local git_root = vim.fn.systemlist("git -C " .. vim.fn.escape(current_dir, " ") .. " rev-parse --show-toplevel")[1]
 	if vim.v.shell_error ~= 0 then
 		print("Not a git repository. Searching on current working directory")
 		return cwd
@@ -147,3 +146,8 @@ vim.api.nvim_create_autocmd("FileType", {
 		)
 	end,
 })
+
+-- list files in ~/Jottacloud/orgfiles/
+vim.keymap.set("n", "<leader>of", function()
+	return require("telescope.builtin").find_files({ cwd = "~/Jottacloud/orgfiles" })
+end, { desc = "[S]earch [O]rg files" })
